@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:alarm/themes/app_text.dart';
+import 'package:alarm/themes/app_colors.dart';
+
+class TextInput extends StatelessWidget {
+  final TextEditingController textInput;
+  final String hintText;
+  final void Function(String) onChange;
+  const TextInput({
+    Key? key,
+    required this.textInput,
+    required this.hintText,
+    required this.onChange,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: textInput,
+      keyboardType: TextInputType.number,
+      onChanged: onChange,
+      style: AppTextStyle.medium(AppColors.blueColor),
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: AppTextStyle.medium(
+          AppColors.blueColor,
+        ),
+        filled: false,
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide.none),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: BorderSide.none),
+      ),
+    );
+  }
+}
