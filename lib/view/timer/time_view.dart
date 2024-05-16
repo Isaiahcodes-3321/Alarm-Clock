@@ -6,6 +6,7 @@ import 'package:alarm/themes/app_colors.dart';
 import 'package:alarm/widgets/input_field.dart';
 import 'package:alarm/view/timer/timer_storage.dart';
 import 'package:alarm/view/timer/time_provider.dart';
+import 'package:alarm/view/nav_bar/nav_controls.dart';
 import 'package:alarm/view/timer/countDown_view.dart';
 import 'package:alarm/view/nav_bar/nav_provider.dart';
 import 'package:alarm/view/timer/time_controller.dart';
@@ -19,7 +20,6 @@ class ViewTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
-     
       double iconSize = 24;
       return Container(
           width: 100.w,
@@ -37,7 +37,7 @@ class ViewTimer extends StatelessWidget {
                             builder: (context) => AlertDialog(
                               content: SizedBox(
                                 height: 18.h,
-                                child: dialog(context),
+                                child: Dialog(),
                               ),
                               backgroundColor: AppColors.lightGreyColor,
                             ),
@@ -90,114 +90,130 @@ class ViewTimer extends StatelessWidget {
           ));
     });
   }
+}
 
-  dialog(BuildContext context) => Consumer(builder: (context, ref, _) {
-        refProvider = ref;
-        return Padding(
-          padding: EdgeInsets.all(10.sp),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    inputBox(TextInput(
-                      hintText: '00',
-                      textInput: InputHolder.hourController,
-                      onChange: (value) {
-                        if (value.length == 2) {
-                          FocusScope.of(context).nextFocus();
-                          TimerInputControls.ifHourInputEmpty();
-                        } else if (value.isEmpty) {
-                          FocusScope.of(context).previousFocus();
-                          TimerInputControls.ifHourInputEmpty();
-                        }
-                      },
-                    )),
-                    separator(),
-                    inputBox(TextInput(
-                      hintText: '00',
-                      textInput: InputHolder.minController,
-                      onChange: (value) {
-                        if (value.length == 2) {
-                          FocusScope.of(context).nextFocus();
-                          TimerInputControls.ifMinInputEmpty();
-                        } else if (value.isEmpty) {
-                          FocusScope.of(context).previousFocus();
-                          TimerInputControls.ifMinInputEmpty();
-                        }
-                      },
-                    )),
-                    separator(),
-                    inputBox(TextInput(
-                      hintText: '00',
-                      textInput: InputHolder.secController,
-                      onChange: (value) {
-                        if (value.length == 2) {
-                          FocusScope.of(context).nextFocus();
-                          TimerInputControls.ifSecInputEmpty();
-                        } else if (value.isEmpty) {
-                          FocusScope.of(context).previousFocus();
-                          TimerInputControls.ifSecInputEmpty();
-                        }
-                      },
-                    )),
-                  ],
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Divider(
-                  color: AppColors.blueColor,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    outLineButton('Cancel', () {
-                      InputHolder.hourController.clear();
-                      InputHolder.minController.clear();
-                      InputHolder.secController.clear();
-                      Navigator.pop(context);
-                    }),
-                    outLineButton('Set', () async {
-                      if (InputHolder.hourController.text.isEmpty) {
-                        InputHolder.hourController.text = '00';
+class Dialog extends StatefulWidget {
+  const Dialog({Key? key}) : super(key: key);
+
+  @override
+  State<Dialog> createState() => _DialogState();
+}
+
+class _DialogState extends State<Dialog> {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(builder: (context, ref, _) {
+      refProvider = ref;
+      return Padding(
+        padding: EdgeInsets.all(10.sp),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  inputBox(TextInput(
+                    hintText: '00',
+                    textInput: InputHolder.hourController,
+                    onChange: (value) {
+                      if (value.length == 2) {
+                        FocusScope.of(context).nextFocus();
+                        TimerInputControls.ifHourInputEmpty();
+                      } else if (value.isEmpty) {
+                        FocusScope.of(context).previousFocus();
+                        TimerInputControls.ifHourInputEmpty();
                       }
-                      if (InputHolder.minController.text.isEmpty) {
-                        InputHolder.minController.text = '00';
+                    },
+                  )),
+                  separator(),
+                  inputBox(TextInput(
+                    hintText: '00',
+                    textInput: InputHolder.minController,
+                    onChange: (value) {
+                      if (value.length == 2) {
+                        FocusScope.of(context).nextFocus();
+                        TimerInputControls.ifMinInputEmpty();
+                      } else if (value.isEmpty) {
+                        FocusScope.of(context).previousFocus();
+                        TimerInputControls.ifMinInputEmpty();
                       }
+                    },
+                  )),
+                  separator(),
+                  inputBox(TextInput(
+                    hintText: '00',
+                    textInput: InputHolder.secController,
+                    onChange: (value) {
+                      if (value.length == 2) {
+                        FocusScope.of(context).nextFocus();
+                        TimerInputControls.ifSecInputEmpty();
+                      } else if (value.isEmpty) {
+                        FocusScope.of(context).previousFocus();
+                        TimerInputControls.ifSecInputEmpty();
+                      }
+                    },
+                  )),
+                ],
+              ),
+              SizedBox(
+                height: 2.h,
+              ),
+              Divider(
+                color: AppColors.blueColor,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  outLineButton('Cancel', () {
+                    InputHolder.hourController.clear();
+                    InputHolder.minController.clear();
+                    InputHolder.secController.clear();
+                    Navigator.pop(context);
+                  }),
+                  outLineButton('Set', () async {
+                    if (InputHolder.hourController.text.isEmpty) {
+                      InputHolder.hourController.text = '00';
+                    }
+                    if (InputHolder.minController.text.isEmpty) {
+                      InputHolder.minController.text = '00';
+                    }
 
-                      int convertHr =
-                          int.parse(InputHolder.hourController.text);
-                      int convertMin =
-                          int.parse(InputHolder.minController.text);
-                      int convertSec =
-                          int.parse(InputHolder.secController.text);
+                    int convertHr = int.parse(InputHolder.hourController.text);
+                    int convertMin = int.parse(InputHolder.minController.text);
+                    int convertSec = int.parse(InputHolder.secController.text);
 
-                      final prefs = await StorageTimer.objPre();
-                      await prefs.setInt(StorageTimer.timerKeyHour, convertHr);
-                      await prefs.setInt(StorageTimer.timerKeyMin, convertMin);
-                      await prefs.setInt(StorageTimer.timerKeySec, convertSec);
+                    final prefs = await StorageTimer.objPre();
+                    await prefs.setInt(StorageTimer.timerKeyHour, convertHr);
+                    await prefs.setInt(StorageTimer.timerKeyMin, convertMin);
+                    await prefs.setInt(StorageTimer.timerKeySec, convertSec);
 
-                      final int? hr = prefs.getInt(StorageTimer.timerKeyHour);
-                      final int? ms = prefs.getInt(StorageTimer.timerKeyMin);
-                      final int? ss = prefs.getInt(StorageTimer.timerKeySec);
-                      
-                      ref.read(intHour.notifier).state = hr!;
-                      ref.read(intMin.notifier).state = ms!;
-                      ref.read(intSec.notifier).state = ss!;
-                      Navigator.pop(context);
-                      
-                      InputHolder.hourController.clear();
-                      InputHolder.minController.clear();
-                      InputHolder.secController.clear();
-                    }),
-                  ],
-                )
-              ],
-            ),
+                    final int? hr = prefs.getInt(StorageTimer.timerKeyHour);
+                    final int? ms = prefs.getInt(StorageTimer.timerKeyMin);
+                    final int? ss = prefs.getInt(StorageTimer.timerKeySec);
+
+                    ref.read(intHour.notifier).state = hr!;
+                    ref.read(intMin.notifier).state = ms!;
+                    ref.read(intSec.notifier).state = ss!;
+                    Navigator.pop(context);
+                    // setState(() {
+                    //   selectedIndexView = 1;
+                    //   print('ch $selectedIndexView');
+                    // });
+                    // setState(() {
+                    //   selectedIndexView = 2;
+                    //    print('ch 2 $selectedIndexView');
+                    // });
+                    InputHolder.hourController.clear();
+                    InputHolder.minController.clear();
+                    InputHolder.secController.clear();
+                  }),
+                ],
+              )
+            ],
           ),
-        );
-      });
+        ),
+      );
+    });
+  }
 }
 
 inputBox(Widget widget) => SizedBox(

@@ -12,10 +12,9 @@ class CountDown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       refProvider = ref;
-      int hr = ref.watch(intHour);
-      int min = ref.watch(intMin);
-      int sec = ref.watch(intSec);
-      print('my time $hr $min $sec');
+      // int hr = ref.watch(intHour);
+      // int min = ref.watch(intMin);
+      // int sec = ref.watch(intSec);
       var fontStyle = AppTextStyle.boldMedium(
         AppColors.blueColor,
       );

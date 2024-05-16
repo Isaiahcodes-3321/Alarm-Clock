@@ -42,22 +42,44 @@ class GetCurrentTime {
     TimeOfDay now = TimeOfDay.now();
     TimeOfDay currentTime = now;
 
-    final int? hr = prefs.getInt(StorageTimer.timerKeyHour);
-    final int? ms = prefs.getInt(StorageTimer.timerKeyMin);
-    final int? ss = prefs.getInt(StorageTimer.timerKeySec);
+    final int? endTimeHr = prefs.getInt(StorageTimer.timerKeyHour);
+    final int? endTimeMin = prefs.getInt(StorageTimer.timerKeyMin);
+    final int? endTimeSec = prefs.getInt(StorageTimer.timerKeySec);
 
-    if (hr != null && ms != null && ss != null) {
-      TimeOfDay endTime = TimeOfDay(hour: hr, minute: ms);
+    int endTimeConvertHour = 00;
 
-      print('Current time: $currentTime');
-      print('End time: $endTime');
+    if (currentTime.hour >= 12) {
+      endTimeConvertHour = currentTime.hour + endTimeHr!;
+    }
 
+    if (endTimeHr != null && endTimeMin != null && endTimeSec != null) {
+      TimeOfDay endTime = TimeOfDay(
+        hour: endTimeConvertHour,
+        minute: endTimeMin,
+      );
       if (currentTime.hour > endTime.hour &&
           currentTime.minute > endTime.minute) {
         print('Time is up');
+      } else {
+        print('Current hour and min $currentTime');
+        print('End hour and min $endTime');
+        int currentMinutes = currentTime.hour * 60 + currentTime.minute;
+        int endMinutes = endTime.hour * 60 + endTime.minute;
+
+        int remainingHourAndMin = endMinutes - currentMinutes;
+        int remainingHours = remainingHourAndMin ~/ 60;
+        int remainingMinutesOnly = remainingHourAndMin % 60;
+        final DateTime now = DateTime.now();
+        final int currentSec = now.second;
+        int getRemainingSec = endTimeSec - currentSec;
+        refProvider.read(intHour.notifier).state = remainingHours;
+        refProvider.read(intMin.notifier).state = remainingMinutesOnly;
+        refProvider.read(intSec.notifier).state = getRemainingSec;
+        print(
+            'Remaining time: $remainingHours hours and $remainingMinutesOnly minutes sec $getRemainingSec');
       }
     } else {
-      print('you still have some time ');
+      print('you have not set a timer yet');
     }
   }
 }
