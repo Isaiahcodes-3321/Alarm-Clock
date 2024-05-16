@@ -36,22 +36,36 @@ class InputHolder {
 }
 
 class GetCurrentTime {
+  static isTimerEmpty() async {
+    final prefs = await StorageTimer.objPre();
+    final int? endTimeHr = prefs.getInt(StorageTimer.timerKeyHour);
+    final int? endTimeMin = prefs.getInt(StorageTimer.timerKeyMin);
+
+    if (endTimeHr! > 0 && endTimeMin! > 0) {
+      currentTime();
+    }
+  }
+
   static currentTime() async {
     final prefs = await StorageTimer.objPre();
+    // get the feature time
+    final String? getFeatureTime = prefs.getString(StorageTimer.featureTime);
+    refProvider.read(featureTime.notifier).state = getFeatureTime!;
 
     TimeOfDay now = TimeOfDay.now();
     TimeOfDay currentTime = now;
-
     final int? endTimeHr = prefs.getInt(StorageTimer.timerKeyHour);
     final int? endTimeMin = prefs.getInt(StorageTimer.timerKeyMin);
     final int? endTimeSec = prefs.getInt(StorageTimer.timerKeySec);
 
     int endTimeConvertHour = 00;
 
+    // check if the current time its greater then 12 in 24 hours format
     if (currentTime.hour >= 12) {
       endTimeConvertHour = currentTime.hour + endTimeHr!;
     }
 
+    // check if the time on storage its empty
     if (endTimeHr != null && endTimeMin != null && endTimeSec != null) {
       TimeOfDay endTime = TimeOfDay(
         hour: endTimeConvertHour,
@@ -67,14 +81,19 @@ class GetCurrentTime {
         int endMinutes = endTime.hour * 60 + endTime.minute;
 
         int remainingHourAndMin = endMinutes - currentMinutes;
+
+        // separate the remaining time in hour and minutes
         int remainingHours = remainingHourAndMin ~/ 60;
         int remainingMinutesOnly = remainingHourAndMin % 60;
+
         final DateTime now = DateTime.now();
         final int currentSec = now.second;
         int getRemainingSec = endTimeSec - currentSec;
+        // update the user time on ui
         refProvider.read(intHour.notifier).state = remainingHours;
         refProvider.read(intMin.notifier).state = remainingMinutesOnly;
         refProvider.read(intSec.notifier).state = getRemainingSec;
+
         print(
             'Remaining time: $remainingHours hours and $remainingMinutesOnly minutes sec $getRemainingSec');
       }
@@ -84,27 +103,21 @@ class GetCurrentTime {
   }
 }
 
+class EmptyTimer {
+  static emptyTimer() async {
+    final prefs = await StorageTimer.objPre();
+    await prefs.setString(StorageTimer.featureTime, '');
 
+    await prefs.setInt(StorageTimer.timerKeyHour, 00);
+    await prefs.setInt(StorageTimer.timerKeyMin, 00);
+    await prefs.setInt(StorageTimer.timerKeySec, 00);
 
-// class GetCurrentTime {
-//   static currentTime() async {
-//     final prefs = await StorageTimer.objPre();
+    refProvider.read(intHour.notifier).state = 00;
+    refProvider.read(intMin.notifier).state = 00;
+    refProvider.read(intSec.notifier).state = 00;
+    refProvider.read(featureTime.notifier).state = "";
+  }
+}
 
 //     DateTime now = DateTime.now();
 //     String currentTime = DateFormat('HH:mm:ss').format(now);
-
-
-//     final int? hr = prefs.getInt(StorageTimer.timerKeyHour);
-//     final int? ms = prefs.getInt(StorageTimer.timerKeyMin);
-//     final int? ss = prefs.getInt(StorageTimer.timerKeySec);
-
-//     String endTime = "$hr:$ms:$ss";
-    
-//     print('min its $currentTime');
-//     print('min itsssss $endTime');
-
-//     // if(currentTime > endTime){
-//     //  print('time is up');
-//     // }
-//   }
-// }

@@ -59,8 +59,8 @@ class _HomeViewState extends State<HomeView> {
               onTabChange: (index) {
                 setState(() {
                   selectedIndexView = index;
-                  if(selectedIndexView == 2) GetCurrentTime.currentTime();
-                  print('num of nave $selectedIndexView');
+                  if(selectedIndexView == 2) GetCurrentTime.isTimerEmpty();
+                  // print('num of nave $selectedIndexView');
                 });
               },
             ),

@@ -1,4 +1,6 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:alarm/themes/app_text.dart';
 import 'package:alarm/themes/app_colors.dart';
 import 'package:alarm/view/timer/time_provider.dart';
@@ -52,6 +54,26 @@ class CountDown extends StatelessWidget {
                 print("Timer finished");
               },
             ),
+            SizedBox(
+              // color: Colors.red,
+              width: 31.w,
+              height: 30.h,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.alarm_on_rounded, color: AppColors.whiteColor,),
+                    Text(
+                      ref.watch(featureTime),
+                      style: AppTextStyle.boldMedium(
+                        AppColors.whiteColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       );

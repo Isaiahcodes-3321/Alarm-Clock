@@ -6,12 +6,12 @@ import 'package:alarm/themes/app_colors.dart';
 import 'package:alarm/widgets/input_field.dart';
 import 'package:alarm/view/timer/timer_storage.dart';
 import 'package:alarm/view/timer/time_provider.dart';
-import 'package:alarm/view/nav_bar/nav_controls.dart';
 import 'package:alarm/view/timer/countDown_view.dart';
 import 'package:alarm/view/nav_bar/nav_provider.dart';
 import 'package:alarm/view/timer/time_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+// import 'package:alarm/view/nav_bar/nav_controls.dart';
 // ignore: depend_on_referenced_packages
 
 class ViewTimer extends StatelessWidget {
@@ -57,25 +57,8 @@ class ViewTimer extends StatelessWidget {
                                   onTap: () {},
                                   child: popMenuText('Alarm Sound')),
                               PopupMenuItem(
-                                  onTap: () async {
-                                    final prefs = await StorageTimer.objPre();
-                                    await prefs.setInt(
-                                        StorageTimer.timerKeyHour, 00);
-                                    await prefs.setInt(
-                                        StorageTimer.timerKeyMin, 00);
-                                    await prefs.setInt(
-                                        StorageTimer.timerKeySec, 00);
-
-                                    final int? hr =
-                                        prefs.getInt(StorageTimer.timerKeyHour);
-                                    final int? ms =
-                                        prefs.getInt(StorageTimer.timerKeyMin);
-                                    final int? ss =
-                                        prefs.getInt(StorageTimer.timerKeySec);
-
-                                    ref.read(intHour.notifier).state = hr!;
-                                    ref.read(intMin.notifier).state = ms!;
-                                    ref.read(intSec.notifier).state = ss!;
+                                  onTap: () {
+                                    EmptyTimer.emptyTimer();
                                   },
                                   child: popMenuText('Reset Alarm'))
                             ]),
@@ -193,15 +176,31 @@ class _DialogState extends State<Dialog> {
                     ref.read(intHour.notifier).state = hr!;
                     ref.read(intMin.notifier).state = ms!;
                     ref.read(intSec.notifier).state = ss!;
+
+                    TimeOfDay now = TimeOfDay.now();
+                    // Convert current time to minutes
+                    int currentTimeInMinutes = now.hour * 60 + now.minute;
+
+                    // Convert user input time to minutes
+                    int addedTimeInMinutes = convertHr * 60 + convertMin;
+
+                    int newTimeInMinutes =
+                        currentTimeInMinutes + addedTimeInMinutes;
+
+                    // Convert new time back to hours and minutes
+                    int newHour24 = (newTimeInMinutes ~/ 60) % 24;
+                    int newMinute = newTimeInMinutes % 60;
+
+                    // Convert 24-hour format to 12-hour format
+                    int newHour12 = newHour24 % 12 == 0 ? 12 : newHour24 % 12;
+                    String period = newHour24 >= 12 ? 'PM' : 'AM';
+                    await prefs.setString(StorageTimer.featureTime,
+                        '${newHour12.toString().padLeft(2, '0')}:${newMinute.toString().padLeft(2, '0')} $period');
+                    final String? getFeatureTime =
+                        prefs.getString(StorageTimer.featureTime);
+                    ref.read(featureTime.notifier).state = getFeatureTime!;
+
                     Navigator.pop(context);
-                    // setState(() {
-                    //   selectedIndexView = 1;
-                    //   print('ch $selectedIndexView');
-                    // });
-                    // setState(() {
-                    //   selectedIndexView = 2;
-                    //    print('ch 2 $selectedIndexView');
-                    // });
                     InputHolder.hourController.clear();
                     InputHolder.minController.clear();
                     InputHolder.secController.clear();
