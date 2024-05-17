@@ -194,11 +194,19 @@ class _DialogState extends State<Dialog> {
                     // Convert 24-hour format to 12-hour format
                     int newHour12 = newHour24 % 12 == 0 ? 12 : newHour24 % 12;
                     String period = newHour24 >= 12 ? 'PM' : 'AM';
+                    await prefs.setString(
+                        StorageTimer.featureTimePeriod, period);
                     await prefs.setString(StorageTimer.featureTime,
-                        '${newHour12.toString().padLeft(2, '0')}:${newMinute.toString().padLeft(2, '0')} $period');
+                        '${newHour12.toString().padLeft(2, '0')}:${newMinute.toString().padLeft(2, '0')}');
+
                     final String? getFeatureTime =
                         prefs.getString(StorageTimer.featureTime);
+                    final String? getFeatureTimePe =
+                        prefs.getString(StorageTimer.featureTimePeriod);
+
                     ref.read(featureTime.notifier).state = getFeatureTime!;
+                    ref.read(featureTimePeriod.notifier).state =
+                        getFeatureTimePe!;
 
                     Navigator.pop(context);
                     InputHolder.hourController.clear();

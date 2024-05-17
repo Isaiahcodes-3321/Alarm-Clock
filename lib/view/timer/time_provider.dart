@@ -4,6 +4,8 @@ final isHourInputEmpty = StateProvider((ref) => false);
 final isMinInputEmpty = StateProvider((ref) => false);
 final isSecInputEmpty = StateProvider((ref) => false);
 final featureTime = StateProvider((ref) => '');
+final featureTimePeriod = StateProvider((ref) => '');
+
 
 
 

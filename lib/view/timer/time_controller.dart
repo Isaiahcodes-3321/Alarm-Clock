@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:alarm/view/timer/timer_storage.dart';
 import 'package:alarm/view/timer/time_provider.dart';
@@ -40,66 +41,62 @@ class GetCurrentTime {
     final prefs = await StorageTimer.objPre();
     final int? endTimeHr = prefs.getInt(StorageTimer.timerKeyHour);
     final int? endTimeMin = prefs.getInt(StorageTimer.timerKeyMin);
+    final int? endTimeSec = prefs.getInt(StorageTimer.timerKeySec);
 
-    if (endTimeHr! > 0 && endTimeMin! > 0) {
+    if (endTimeHr! > 0 || endTimeMin! > 0 || endTimeSec! > 0) {
       currentTime();
+    } else {
+      EmptyTimer.emptyTimer();
+      print('no time');
     }
   }
 
   static currentTime() async {
+    TimeOfDay now = TimeOfDay.now();
     final prefs = await StorageTimer.objPre();
     // get the feature time
-    final String? getFeatureTime = prefs.getString(StorageTimer.featureTime);
-    refProvider.read(featureTime.notifier).state = getFeatureTime!;
-
-    TimeOfDay now = TimeOfDay.now();
-    TimeOfDay currentTime = now;
-    final int? endTimeHr = prefs.getInt(StorageTimer.timerKeyHour);
-    final int? endTimeMin = prefs.getInt(StorageTimer.timerKeyMin);
+    final String? featureEndTime = prefs.getString(StorageTimer.featureTime);
+    refProvider.read(featureTime.notifier).state = featureEndTime!;
     final int? endTimeSec = prefs.getInt(StorageTimer.timerKeySec);
+    // Convert current time to minutes since midnight
 
-    int endTimeConvertHour = 00;
+    final nowTime = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      now.hour,
+      now.minute,
+    );
 
-    // check if the current time its greater then 12 in 24 hours format
-    if (currentTime.hour >= 12) {
-      endTimeConvertHour = currentTime.hour + endTimeHr!;
+    final currentTimeString = DateFormat('hh:mm').format(nowTime);
+
+    final currentTime = DateFormat('hh:mm').parse(currentTimeString);
+    final endTime = DateFormat('hh:mm').parse(featureEndTime);
+    print('current time $currentTimeString');
+    print('end time $featureEndTime');
+
+    Duration difference = endTime.difference(currentTime);
+
+    if (difference.isNegative) {
+      final endTimeTomorrow = endTime.add(Duration(days: 1));
+      difference = endTimeTomorrow.difference(currentTime);
     }
 
-    // check if the time on storage its empty
-    if (endTimeHr != null && endTimeMin != null && endTimeSec != null) {
-      TimeOfDay endTime = TimeOfDay(
-        hour: endTimeConvertHour,
-        minute: endTimeMin,
-      );
-      if (currentTime.hour > endTime.hour &&
-          currentTime.minute > endTime.minute) {
-        print('Time is up');
-      } else {
-        print('Current hour and min $currentTime');
-        print('End hour and min $endTime');
-        int currentMinutes = currentTime.hour * 60 + currentTime.minute;
-        int endMinutes = endTime.hour * 60 + endTime.minute;
+    // Print the remaining time
+    final remainingHours = difference.inHours;
+    final remainingMinutes = difference.inMinutes.remainder(60);
 
-        int remainingHourAndMin = endMinutes - currentMinutes;
+    //calculate sec
+    final DateTime secNow = DateTime.now();
+    final int currentSec = secNow.second;
+    int getRemainingSec = endTimeSec! - currentSec;
+    refProvider.read(intHour.notifier).state = remainingHours;
+    refProvider.read(intMin.notifier).state = remainingMinutes;
+    refProvider.read(intSec.notifier).state = getRemainingSec;
 
-        // separate the remaining time in hour and minutes
-        int remainingHours = remainingHourAndMin ~/ 60;
-        int remainingMinutesOnly = remainingHourAndMin % 60;
-
-        final DateTime now = DateTime.now();
-        final int currentSec = now.second;
-        int getRemainingSec = endTimeSec - currentSec;
-        // update the user time on ui
-        refProvider.read(intHour.notifier).state = remainingHours;
-        refProvider.read(intMin.notifier).state = remainingMinutesOnly;
-        refProvider.read(intSec.notifier).state = getRemainingSec;
-
-        print(
-            'Remaining time: $remainingHours hours and $remainingMinutesOnly minutes sec $getRemainingSec');
-      }
-    } else {
-      print('you have not set a timer yet');
-    }
+    print('current sec $getRemainingSec');
+    print(
+        'Remaining time: ${remainingHours} hours and ${remainingMinutes} minutes');
   }
 }
 
@@ -116,8 +113,6 @@ class EmptyTimer {
     refProvider.read(intMin.notifier).state = 00;
     refProvider.read(intSec.notifier).state = 00;
     refProvider.read(featureTime.notifier).state = "";
+    refProvider.read(featureTimePeriod.notifier).state = "";
   }
 }
-
-//     DateTime now = DateTime.now();
-//     String currentTime = DateFormat('HH:mm:ss').format(now);
