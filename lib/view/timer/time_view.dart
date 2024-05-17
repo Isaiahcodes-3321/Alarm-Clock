@@ -4,6 +4,7 @@ import 'package:alarm/widgets/buttons.dart';
 import 'package:alarm/themes/app_text.dart';
 import 'package:alarm/themes/app_colors.dart';
 import 'package:alarm/widgets/input_field.dart';
+import 'package:alarm/view/nav_bar/nav_view.dart';
 import 'package:alarm/view/timer/timer_storage.dart';
 import 'package:alarm/view/timer/time_provider.dart';
 import 'package:alarm/view/timer/countDown_view.dart';
@@ -11,8 +12,6 @@ import 'package:alarm/view/nav_bar/nav_provider.dart';
 import 'package:alarm/view/timer/time_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-// import 'package:alarm/view/nav_bar/nav_controls.dart';
-// ignore: depend_on_referenced_packages
 
 class ViewTimer extends StatelessWidget {
   ViewTimer({Key? key}) : super(key: key);
@@ -37,7 +36,7 @@ class ViewTimer extends StatelessWidget {
                             builder: (context) => AlertDialog(
                               content: SizedBox(
                                 height: 18.h,
-                                child: Dialog(),
+                                child: dialog(),
                               ),
                               backgroundColor: AppColors.lightGreyColor,
                             ),
@@ -75,17 +74,7 @@ class ViewTimer extends StatelessWidget {
   }
 }
 
-class Dialog extends StatefulWidget {
-  const Dialog({Key? key}) : super(key: key);
-
-  @override
-  State<Dialog> createState() => _DialogState();
-}
-
-class _DialogState extends State<Dialog> {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, _) {
+dialog() => Consumer(builder: (context, ref, _) {
       refProvider = ref;
       return Padding(
         padding: EdgeInsets.all(10.sp),
@@ -164,14 +153,14 @@ class _DialogState extends State<Dialog> {
                     int convertMin = int.parse(InputHolder.minController.text);
                     int convertSec = int.parse(InputHolder.secController.text);
 
-                    final prefs = await StorageTimer.objPre();
-                    await prefs.setInt(StorageTimer.timerKeyHour, convertHr);
-                    await prefs.setInt(StorageTimer.timerKeyMin, convertMin);
-                    await prefs.setInt(StorageTimer.timerKeySec, convertSec);
+                    final pref = await StorageTimer.objPre();
+                    await pref.setInt(StorageTimer.timerKeyHour, convertHr);
+                    await pref.setInt(StorageTimer.timerKeyMin, convertMin);
+                    await pref.setInt(StorageTimer.timerKeySec, convertSec);
 
-                    final int? hr = prefs.getInt(StorageTimer.timerKeyHour);
-                    final int? ms = prefs.getInt(StorageTimer.timerKeyMin);
-                    final int? ss = prefs.getInt(StorageTimer.timerKeySec);
+                    final int? hr = pref.getInt(StorageTimer.timerKeyHour);
+                    final int? ms = pref.getInt(StorageTimer.timerKeyMin);
+                    final int? ss = pref.getInt(StorageTimer.timerKeySec);
 
                     ref.read(intHour.notifier).state = hr!;
                     ref.read(intMin.notifier).state = ms!;
@@ -194,21 +183,26 @@ class _DialogState extends State<Dialog> {
                     // Convert 24-hour format to 12-hour format
                     int newHour12 = newHour24 % 12 == 0 ? 12 : newHour24 % 12;
                     String period = newHour24 >= 12 ? 'PM' : 'AM';
-                    await prefs.setString(
+                    await pref.setString(
                         StorageTimer.featureTimePeriod, period);
-                    await prefs.setString(StorageTimer.featureTime,
+                    await pref.setString(StorageTimer.featureTime,
                         '${newHour12.toString().padLeft(2, '0')}:${newMinute.toString().padLeft(2, '0')}');
 
                     final String? getFeatureTime =
-                        prefs.getString(StorageTimer.featureTime);
+                        pref.getString(StorageTimer.featureTime);
                     final String? getFeatureTimePe =
-                        prefs.getString(StorageTimer.featureTimePeriod);
+                        pref.getString(StorageTimer.featureTimePeriod);
 
                     ref.read(featureTime.notifier).state = getFeatureTime!;
                     ref.read(featureTimePeriod.notifier).state =
                         getFeatureTimePe!;
 
-                    Navigator.pop(context);
+                    Navigator.push<void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => const HomeView(),
+                      ),
+                    );
                     InputHolder.hourController.clear();
                     InputHolder.minController.clear();
                     InputHolder.secController.clear();
@@ -220,8 +214,6 @@ class _DialogState extends State<Dialog> {
         ),
       );
     });
-  }
-}
 
 inputBox(Widget widget) => SizedBox(
       width: 15.w,
@@ -238,6 +230,7 @@ separator() => Text(
         AppColors.blueColor,
       ),
     );
+
 popMenuText(String text) => Text(
       text,
       style: AppTextStyle.mediumSmall(

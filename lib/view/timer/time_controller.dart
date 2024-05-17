@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:alarm/view/timer/timer_storage.dart';
 import 'package:alarm/view/timer/time_provider.dart';
 import 'package:alarm/view/nav_bar/nav_provider.dart';
+// ignore_for_file: avoid_print
+
 
 class TimerInputControls {
   static ifHourInputEmpty() {
@@ -38,10 +40,10 @@ class InputHolder {
 
 class GetCurrentTime {
   static isTimerEmpty() async {
-    final prefs = await StorageTimer.objPre();
-    final int? endTimeHr = prefs.getInt(StorageTimer.timerKeyHour);
-    final int? endTimeMin = prefs.getInt(StorageTimer.timerKeyMin);
-    final int? endTimeSec = prefs.getInt(StorageTimer.timerKeySec);
+    final pref = await StorageTimer.objPre();
+    final int? endTimeHr = pref.getInt(StorageTimer.timerKeyHour);
+    final int? endTimeMin = pref.getInt(StorageTimer.timerKeyMin);
+    final int? endTimeSec = pref.getInt(StorageTimer.timerKeySec);
 
     if (endTimeHr! > 0 || endTimeMin! > 0 || endTimeSec! > 0) {
       currentTime();
@@ -53,11 +55,11 @@ class GetCurrentTime {
 
   static currentTime() async {
     TimeOfDay now = TimeOfDay.now();
-    final prefs = await StorageTimer.objPre();
+    final pref = await StorageTimer.objPre();
     // get the feature time
-    final String? featureEndTime = prefs.getString(StorageTimer.featureTime);
+    final String? featureEndTime = pref.getString(StorageTimer.featureTime);
     refProvider.read(featureTime.notifier).state = featureEndTime!;
-    final int? endTimeSec = prefs.getInt(StorageTimer.timerKeySec);
+    final int? endTimeSec = pref.getInt(StorageTimer.timerKeySec);
     // Convert current time to minutes since midnight
 
     final nowTime = DateTime(
@@ -96,18 +98,18 @@ class GetCurrentTime {
 
     print('current sec $getRemainingSec');
     print(
-        'Remaining time: ${remainingHours} hours and ${remainingMinutes} minutes');
+        'Remaining time: $remainingHours hours and $remainingMinutes minutes');
   }
 }
 
 class EmptyTimer {
   static emptyTimer() async {
-    final prefs = await StorageTimer.objPre();
-    await prefs.setString(StorageTimer.featureTime, '');
+    final pref = await StorageTimer.objPre();
+    await pref.setString(StorageTimer.featureTime, '');
 
-    await prefs.setInt(StorageTimer.timerKeyHour, 00);
-    await prefs.setInt(StorageTimer.timerKeyMin, 00);
-    await prefs.setInt(StorageTimer.timerKeySec, 00);
+    await pref.setInt(StorageTimer.timerKeyHour, 00);
+    await pref.setInt(StorageTimer.timerKeyMin, 00);
+    await pref.setInt(StorageTimer.timerKeySec, 00);
 
     refProvider.read(intHour.notifier).state = 00;
     refProvider.read(intMin.notifier).state = 00;
