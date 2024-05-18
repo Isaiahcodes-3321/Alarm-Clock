@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:alarm/themes/app_text.dart';
-import 'package:alarm/themes/app_colors.dart';
 
 Widget materialButton() {
   return MaterialButton(onPressed: () {});
 }
 
-Widget outLineButton(String text, VoidCallback onPres) {
+Widget outLineButton(String text,Color color, Color textColor, VoidCallback onPres,) {
   return OutlinedButton(
     style: OutlinedButton.styleFrom(
-      side: BorderSide(color: AppColors.lightGreyColor),
+      side: BorderSide(color: color),
     ),
     onPressed: onPres,
     child: Text(
       text,
-      style: AppTextStyle.medium(AppColors.blueColor),
+      style: AppTextStyle.medium(textColor),  
     ),
   );
 }

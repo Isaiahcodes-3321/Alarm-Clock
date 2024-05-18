@@ -7,5 +7,5 @@ int selectedIndexView = 0;
 List<Widget> navViews = [
   const ViewAlarm(),
   const ViewStopWatch(),
-   ViewTimer(),
+  const ViewTimer(),
 ];

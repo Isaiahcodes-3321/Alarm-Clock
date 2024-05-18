@@ -5,7 +5,6 @@ import 'package:alarm/view/timer/time_provider.dart';
 import 'package:alarm/view/nav_bar/nav_provider.dart';
 // ignore_for_file: avoid_print
 
-
 class TimerInputControls {
   static ifHourInputEmpty() {
     if (InputHolder.hourController.text.isEmpty) {
@@ -56,9 +55,13 @@ class GetCurrentTime {
   static currentTime() async {
     TimeOfDay now = TimeOfDay.now();
     final pref = await StorageTimer.objPre();
-    // get the feature time
+    // get the feature time and period
     final String? featureEndTime = pref.getString(StorageTimer.featureTime);
+    final String? getFeatureTimePe =
+        pref.getString(StorageTimer.featureTimePeriod);
     refProvider.read(featureTime.notifier).state = featureEndTime!;
+    refProvider.read(featureTimePeriod.notifier).state = getFeatureTimePe!;
+
     final int? endTimeSec = pref.getInt(StorageTimer.timerKeySec);
     // Convert current time to minutes since midnight
 
@@ -80,7 +83,7 @@ class GetCurrentTime {
     Duration difference = endTime.difference(currentTime);
 
     if (difference.isNegative) {
-      final endTimeTomorrow = endTime.add(Duration(days: 1));
+      final endTimeTomorrow = endTime.add(const Duration(days: 1));
       difference = endTimeTomorrow.difference(currentTime);
     }
 

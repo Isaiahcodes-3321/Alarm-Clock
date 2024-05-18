@@ -14,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ViewTimer extends StatelessWidget {
-  ViewTimer({Key? key}) : super(key: key);
+  const ViewTimer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class ViewTimer extends StatelessWidget {
                   SizedBox(
                     height: 3.h,
                   ),
-                  CountDown()
+                  const CountDown()
                 ],
               ),
             ),
@@ -135,13 +135,13 @@ dialog() => Consumer(builder: (context, ref, _) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  outLineButton('Cancel', () {
+                  outLineButton('Cancel',AppColors.lightGreyColor,AppColors.blueColor, () {
                     InputHolder.hourController.clear();
                     InputHolder.minController.clear();
                     InputHolder.secController.clear();
                     Navigator.pop(context);
                   }),
-                  outLineButton('Set', () async {
+                  outLineButton(' Set ',AppColors.lightGreyColor,AppColors.blueColor, () async {
                     if (InputHolder.hourController.text.isEmpty) {
                       InputHolder.hourController.text = '00';
                     }

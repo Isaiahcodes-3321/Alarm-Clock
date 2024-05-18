@@ -9,6 +9,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 
 class CountDown extends StatelessWidget {
+  const CountDown({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
@@ -31,7 +33,7 @@ class CountDown extends StatelessWidget {
               child: CircularProgressIndicator(
                 strokeWidth: 3.w,
                 backgroundColor: Colors.red,
-                valueColor: AlwaysStoppedAnimation(Colors.blue),
+                valueColor: const AlwaysStoppedAnimation(Colors.blue),
               ),
             ),
             TimerCountdown(

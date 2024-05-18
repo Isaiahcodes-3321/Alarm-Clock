@@ -7,11 +7,11 @@ class TextInput extends StatelessWidget {
   final String hintText;
   final void Function(String) onChange;
   const TextInput({
-    Key? key,
+    super.key,
     required this.textInput,
     required this.hintText,
     required this.onChange,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
