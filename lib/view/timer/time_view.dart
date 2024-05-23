@@ -209,6 +209,10 @@ dialog() => Consumer(builder: (context, ref, _) {
                         builder: (BuildContext context) => const HomeView(),
                       ),
                     );
+                     await pref.setBool(StorageTimer.isTimerSet, true);
+                     final bool? ifTimerIsSet = pref.getBool(StorageTimer.isTimerSet);
+                       ref.read(isTimerSet.notifier).state =
+                        ifTimerIsSet!;
                     InputHolder.hourController.clear();
                     InputHolder.minController.clear();
                     InputHolder.secController.clear();

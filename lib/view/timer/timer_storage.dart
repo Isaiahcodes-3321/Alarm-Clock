@@ -5,6 +5,7 @@ class StorageTimer {
   static String timerKeyMin = 'timerM';
   static String timerKeySec = 'timerS';
   static String featureTime = 'featureTime';
+  static String isTimerSet = 'isTimerSet';
   static String featureTimePeriod = 'featureTimePeriod';
 
   static objPre() async {
@@ -14,16 +15,4 @@ class StorageTimer {
 }
 
 
-// import 'package:intl/intl.dart';
 
-                    // Get the current time
-
-                    // DateTime now = DateTime.now();
-
-                    // // Format the time
-
-                    // String formattedTime = DateFormat('HH:mm:ss').format(now);
-
-                    // //output 11:15:22
-
-                    // print('Current time: $formattedTime');

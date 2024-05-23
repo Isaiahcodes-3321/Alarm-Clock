@@ -120,9 +120,13 @@ class EmptyTimer {
 
     refProvider.read(intHour.notifier).state = 00;
     refProvider.read(intMin.notifier).state = 00;
-    refProvider.read(intSec.notifier).state = 15;
+    refProvider.read(intSec.notifier).state = 00;
     refProvider.read(featureTime.notifier).state = "";
     refProvider.read(featureTimePeriod.notifier).state = "";
+
+    await pref.setBool(StorageTimer.isTimerSet, false);
+    final bool? ifTimerIsSet = pref.getBool(StorageTimer.isTimerSet);
+    refProvider.read(isTimerSet.notifier).state = ifTimerIsSet!;
   }
 }
 
