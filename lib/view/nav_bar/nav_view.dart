@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:alarm/themes/app_colors.dart';
+import 'package:alarm_clock/themes/app_colors.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:alarm/view/nav_bar/nav_provider.dart';
-import 'package:alarm/view/nav_bar/nav_controls.dart';
-import 'package:alarm/view/timer/time_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
+import 'package:alarm_clock/view/nav_bar/nav_controls.dart';
+import 'package:alarm_clock/view/timer/time_controller.dart';
+import 'package:alarm_clock/view/stop_watch/st_provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -59,7 +60,11 @@ class _HomeViewState extends State<HomeView> {
               onTabChange: (index) {
                 setState(() {
                   selectedIndexView = index;
-                  if(selectedIndexView == 2) GetCurrentTime.isTimerEmpty();
+                  if (selectedIndexView == 2) GetCurrentTime.isTimerEmpty();
+                  if (selectedIndexView == 0 || selectedIndexView == 2) {
+                    ref.read(isStartButtonClick.notifier).state = true;
+                    ref.read(isLapButtonClick.notifier).state = false;
+                  }
                   // print('num of nave $selectedIndexView');
                 });
               },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:alarm/themes/app_text.dart';
+import 'package:alarm_clock/themes/app_text.dart';
 
 Widget materialButton() {
   return MaterialButton(onPressed: () {});

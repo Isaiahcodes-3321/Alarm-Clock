@@ -1,17 +1,18 @@
+import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
-import 'package:alarm/widgets/bar.dart';
-import 'package:alarm/widgets/buttons.dart';
-import 'package:alarm/themes/app_text.dart';
-import 'package:alarm/themes/app_colors.dart';
-import 'package:alarm/widgets/input_field.dart';
-import 'package:alarm/view/nav_bar/nav_view.dart';
-import 'package:alarm/view/timer/timer_storage.dart';
-import 'package:alarm/view/timer/time_provider.dart';
-import 'package:alarm/view/timer/countDown_view.dart';
-import 'package:alarm/view/nav_bar/nav_provider.dart';
-import 'package:alarm/view/timer/time_controller.dart';
+import 'package:alarm_clock/widgets/bar.dart';
+import 'package:alarm_clock/widgets/buttons.dart';
+import 'package:alarm_clock/themes/app_text.dart';
+import 'package:alarm_clock/themes/app_colors.dart';
+import 'package:alarm_clock/widgets/input_field.dart';
+import 'package:alarm_clock/view/nav_bar/nav_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:alarm_clock/view/timer/timer_storage.dart';
+import 'package:alarm_clock/view/timer/time_provider.dart';
+import 'package:alarm_clock/view/timer/countDown_view.dart';
+import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
+import 'package:alarm_clock/view/timer/time_controller.dart';
 
 class ViewTimer extends StatelessWidget {
   const ViewTimer({super.key});
@@ -56,7 +57,8 @@ class ViewTimer extends StatelessWidget {
                                   onTap: () {},
                                   child: popMenuText('Alarm Sound')),
                               PopupMenuItem(
-                                  onTap: () {
+                                  onTap: () async{
+                                    await Alarm.stop(alarmId);
                                     EmptyTimer.emptyTimer();
                                   },
                                   child: popMenuText('Reset Alarm'))
@@ -135,13 +137,17 @@ dialog() => Consumer(builder: (context, ref, _) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  outLineButton('Cancel',AppColors.lightGreyColor,AppColors.blueColor, () {
+                  outLineButton(
+                      'Cancel', AppColors.lightGreyColor, AppColors.blueColor,
+                      () {
                     InputHolder.hourController.clear();
                     InputHolder.minController.clear();
                     InputHolder.secController.clear();
                     Navigator.pop(context);
                   }),
-                  outLineButton(' Set ',AppColors.lightGreyColor,AppColors.blueColor, () async {
+                  outLineButton(
+                      ' Set ', AppColors.lightGreyColor, AppColors.blueColor,
+                      () async {
                     if (InputHolder.hourController.text.isEmpty) {
                       InputHolder.hourController.text = '00';
                     }

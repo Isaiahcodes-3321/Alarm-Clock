@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:alarm/themes/app_text.dart';
-import 'package:alarm/themes/app_colors.dart';
+import 'package:alarm_clock/themes/app_text.dart';
+import 'package:alarm_clock/themes/app_colors.dart';
 
 class TextInput extends StatelessWidget {
   final TextEditingController textInput;

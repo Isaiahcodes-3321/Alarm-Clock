@@ -1,14 +1,12 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:alarm/widgets/buttons.dart';
-import 'package:alarm/themes/app_text.dart';
-import 'package:alarm/themes/app_colors.dart';
-import 'package:alarm/view/nav_bar/nav_provider.dart';
-import 'package:alarm/view/stop_watch/st_provider.dart';
+import 'package:alarm_clock/widgets/buttons.dart';
+import 'package:alarm_clock/themes/app_text.dart';
+import 'package:alarm_clock/themes/app_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
+import 'package:alarm_clock/view/stop_watch/st_provider.dart';
 
 class ViewStopWatch extends StatelessWidget {
   const ViewStopWatch({super.key});
@@ -17,12 +15,6 @@ class ViewStopWatch extends StatelessWidget {
   Widget build(BuildContext context) {
     final StopWatchTimer _stopWatchTimer = StopWatchTimer();
 
-// Stop timer.
-    _stopWatchTimer.onStopTimer();
-// Reset timer
-    _stopWatchTimer.onResetTimer();
-// Lap time
-    _stopWatchTimer.onAddLap();
     int ht = 3;
     int wth = 100;
     return SafeArea(
@@ -62,7 +54,7 @@ class ViewStopWatch extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Container(
+                                  SizedBox(
                                     // color: Colors.red,
                                     width: 65.w,
                                     child: Row(
@@ -101,7 +93,21 @@ class ViewStopWatch extends StatelessWidget {
                         SizedBox(
                           height: 3.h,
                         ),
-                        Container(
+                        SizedBox(
+                          width: 35.w,
+                          child: Consumer(builder: (context, ref, _) {
+                            refProvider = ref;
+                            return ref.watch(isLapButtonClick)
+                                ? Text(
+                                    'Lap',
+                                    style: AppTextStyle.boldMedium(
+                                      AppColors.whiteColor,
+                                    ),
+                                  )
+                                : const Text('');
+                          }),
+                        ),
+                        SizedBox(
                           width: 55.w,
                           height: 45.h,
                           // color: Colors.red,
@@ -119,7 +125,7 @@ class ViewStopWatch extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.all(8),
                                         child: Text(
-                                          '${index + 1}:   ${data.displayTime}',
+                                          '${index + 1}:    ${data.displayTime}',
                                           style: AppTextStyle.boldMedium(
                                             AppColors.whiteColor,
                                           ),
@@ -144,7 +150,7 @@ class ViewStopWatch extends StatelessWidget {
                   flex: 2,
                   child: Consumer(builder: (context, ref, _) {
                     refProvider = ref;
-                    return Container(
+                    return SizedBox(
                         // color: Colors.blue,
                         width: 90.w,
                         child: Center(
@@ -156,6 +162,9 @@ class ViewStopWatch extends StatelessWidget {
                                         AppColors.whiteColor, () {
                                       // Reset timer
                                       _stopWatchTimer.onResetTimer();
+                                      ref
+                                          .read(isLapButtonClick.notifier)
+                                          .state = false;
                                     }),
                                     // button 2
                                     outLineButton(
@@ -176,6 +185,9 @@ class ViewStopWatch extends StatelessWidget {
                                         AppColors.whiteColor, () {
                                       // Lap time
                                       _stopWatchTimer.onAddLap();
+                                      ref
+                                          .read(isLapButtonClick.notifier)
+                                          .state = true;
                                     }),
                                     // button 2
                                     outLineButton(
@@ -203,13 +215,8 @@ buttonsRow(Widget button1, button2) => Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [button1, button2],
     );
-// widget to display discription for hour minutes seconds
+// widget to display description for hour minutes seconds
 hmsTex(String text) => Text(
       text,
       style: AppTextStyle.bold(AppColors.blueColor),
     );
-
-
-
-
-

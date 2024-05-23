@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:alarm/view/timer/timer_storage.dart';
-import 'package:alarm/view/timer/time_provider.dart';
-import 'package:alarm/view/nav_bar/nav_provider.dart';
+import 'package:alarm/model/alarm_settings.dart';
+import 'package:alarm_clock/view/timer/timer_storage.dart';
+import 'package:alarm_clock/view/timer/time_provider.dart';
+import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
+
 // ignore_for_file: avoid_print
 
 class TimerInputControls {
@@ -45,6 +48,7 @@ class GetCurrentTime {
     final int? endTimeSec = pref.getInt(StorageTimer.timerKeySec);
 
     if (endTimeHr! > 0 || endTimeMin! > 0 || endTimeSec! > 0) {
+      print('time $endTimeSec');
       currentTime();
     } else {
       EmptyTimer.emptyTimer();
@@ -116,8 +120,23 @@ class EmptyTimer {
 
     refProvider.read(intHour.notifier).state = 00;
     refProvider.read(intMin.notifier).state = 00;
-    refProvider.read(intSec.notifier).state = 00;
+    refProvider.read(intSec.notifier).state = 15;
     refProvider.read(featureTime.notifier).state = "";
     refProvider.read(featureTimePeriod.notifier).state = "";
   }
 }
+
+int alarmId = 1;
+
+final alarmSettings = AlarmSettings(
+  id: alarmId,
+  dateTime: DateTime(2024, 5, 23, 0, 0, 0),
+  assetAudioPath: 'assets/app_music/Majeeed_Ft_Lojay_-_Cry_shayo_.mp3',
+  loopAudio: true,
+  vibrate: true,
+  volume: 0.8,
+  fadeDuration: 3.0,
+  notificationTitle: 'Time is up',
+  notificationBody: 'This is the body',
+  enableNotificationOnKill: Platform.isIOS,
+);
