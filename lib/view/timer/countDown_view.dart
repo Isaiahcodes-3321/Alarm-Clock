@@ -2,6 +2,7 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:alarm_clock/themes/app_text.dart';
 import 'package:alarm_clock/themes/app_colors.dart';
+import 'package:alarm_clock/widgets/bottom_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:alarm_clock/view/timer/time_provider.dart';
@@ -37,26 +38,33 @@ class CountDown extends StatelessWidget {
                 valueColor: const AlwaysStoppedAnimation(Colors.blue),
               ),
             ),
-            ref.watch(isTimerSet) ?
-            TimerCountdown(
-              colonsTextStyle: fontStyle1,
-              timeTextStyle: fontStyle1,
-              descriptionTextStyle: fontStyle,
-              format: CountDownTimerFormat.hoursMinutesSeconds,
-              endTime: DateTime.now().add(
-                Duration(
-                  hours: ref.watch(intHour),
-                  minutes: ref.watch(intMin),
-                  seconds: ref.watch(intSec),
-                ),
-              ),
-              onEnd: () async {
-                await Alarm.set(alarmSettings: alarmSettings);
-                EmptyTimer.emptyTimer();
-                print("Timer finished");
-              },
-            ) : 
-            Text('00 : 00 : 00',style: fontStyle1,),
+            ref.watch(isTimerSet)
+                ? TimerCountdown(
+                    colonsTextStyle: fontStyle1,
+                    timeTextStyle: fontStyle1,
+                    descriptionTextStyle: fontStyle,
+                    format: CountDownTimerFormat.hoursMinutesSeconds,
+                    endTime: DateTime.now().add(
+                      Duration(
+                        hours: ref.watch(intHour),
+                        minutes: ref.watch(intMin),
+                        seconds: ref.watch(intSec),
+                      ),
+                    ),
+                    onEnd: () async {
+                      getVibrationValue();
+                      getLoopingValue();
+                      getVolumeValue();
+                      // print('value ${refProvider.watch(isVibrating)}');
+                      await Alarm.set(alarmSettings: alarmSettings);
+                      EmptyTimer.emptyTimer();
+                      print("Timer finished");
+                    },
+                  )
+                : Text(
+                    '00 : 00 : 00',
+                    style: fontStyle1,
+                  ),
             SizedBox(
               // color: Colors.red,
               width: 31.w,

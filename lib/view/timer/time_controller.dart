@@ -5,6 +5,7 @@ import 'package:alarm/model/alarm_settings.dart';
 import 'package:alarm_clock/view/timer/timer_storage.dart';
 import 'package:alarm_clock/view/timer/time_provider.dart';
 import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
+import 'package:alarm_clock/view/global_controls/global_provider.dart';
 
 // ignore_for_file: avoid_print
 
@@ -136,11 +137,51 @@ final alarmSettings = AlarmSettings(
   id: alarmId,
   dateTime: DateTime(2024, 5, 23, 0, 0, 0),
   assetAudioPath: 'assets/app_music/Majeeed_Ft_Lojay_-_Cry_shayo_.mp3',
-  loopAudio: true,
-  vibrate: true,
-  volume: 0.8,
+  loopAudio: refProvider.watch(isLoopAudio),
+  vibrate: refProvider.watch(isVibrating),
+  volume: refProvider.watch(vibrateVolume),
   fadeDuration: 3.0,
   notificationTitle: 'Time is up',
   notificationBody: 'This is the body',
   enableNotificationOnKill: Platform.isIOS,
+  androidFullScreenIntent: true,
 );
+
+
+
+// final alarmSettings = AlarmSettings(
+//   id: alarmId,
+//   dateTime: DateTime(2024, 5, 23, 0, 0, 0),
+//   assetAudioPath: 'assets/app_music/Majeeed_Ft_Lojay_-_Cry_shayo_.mp3',
+//   loopAudio: refProvider.watch(isLoopAudio),
+//   vibrate: refProvider.watch(isVibrating),
+//   volume: refProvider.watch(vibrateVolume),
+//   fadeDuration: 3.0,
+//   notificationTitle: 'Time is up',
+//   notificationBody: 'This is the body',
+//   enableNotificationOnKill: Platform.isIOS,
+//   androidFullScreenIntent: true,
+// );
+
+// Future<void> onSelectNotification(String payload) async {
+//   print('notification clicked');
+// }
+
+// Future<void> showNotificationWithActions() async {
+//   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//       FlutterLocalNotificationsPlugin();
+//   const AndroidNotificationDetails androidNotificationDetails =
+//       AndroidNotificationDetails(
+//     'your_channel_id',
+//     'your_channel_description',
+//     importance: Importance.max,
+//     priority: Priority.high,
+//     actions: <AndroidNotificationAction>[
+//       AndroidNotificationAction('id', 'Action 1'),
+//     ],
+//   );
+//   const NotificationDetails notificationDetails =
+//       NotificationDetails(android: androidNotificationDetails);
+//   await flutterLocalNotificationsPlugin.show(
+//       1, 'Notification title', 'Notification body', notificationDetails);
+// }

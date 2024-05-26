@@ -5,6 +5,7 @@ import 'package:alarm_clock/widgets/buttons.dart';
 import 'package:alarm_clock/themes/app_text.dart';
 import 'package:alarm_clock/themes/app_colors.dart';
 import 'package:alarm_clock/widgets/input_field.dart';
+import 'package:alarm_clock/widgets/bottom_sheet.dart';
 import 'package:alarm_clock/view/nav_bar/nav_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -54,10 +55,15 @@ class ViewTimer extends StatelessWidget {
                         color: AppColors.lightGreyColor,
                         itemBuilder: (context) => [
                               PopupMenuItem(
-                                  onTap: () {},
-                                  child: popMenuText('Alarm Sound')),
+                                  onTap: () {
+                                    Scaffold.of(context).showBottomSheet(
+                                        (BuildContext context) {
+                                      return const BottomSheetDisplay();
+                                    });
+                                  },
+                                  child: popMenuText('Alarm Setting')),
                               PopupMenuItem(
-                                  onTap: () async{
+                                  onTap: () async {
                                     await Alarm.stop(alarmId);
                                     EmptyTimer.emptyTimer();
                                   },
@@ -209,10 +215,10 @@ dialog() => Consumer(builder: (context, ref, _) {
                         builder: (BuildContext context) => const HomeView(),
                       ),
                     );
-                     await pref.setBool(StorageTimer.isTimerSet, true);
-                     final bool? ifTimerIsSet = pref.getBool(StorageTimer.isTimerSet);
-                       ref.read(isTimerSet.notifier).state =
-                        ifTimerIsSet!;
+                    await pref.setBool(StorageTimer.isTimerSet, true);
+                    final bool? ifTimerIsSet =
+                        pref.getBool(StorageTimer.isTimerSet);
+                    ref.read(isTimerSet.notifier).state = ifTimerIsSet!;
                     InputHolder.hourController.clear();
                     InputHolder.minController.clear();
                     InputHolder.secController.clear();
