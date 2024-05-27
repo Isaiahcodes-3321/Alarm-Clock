@@ -142,8 +142,7 @@ final alarmSettings = AlarmSettings(
   volume: refProvider.watch(vibrateVolume),
   fadeDuration: 3.0,
   notificationTitle: '',
-  notificationBody: '',
+  notificationBody: '00 : 00 : 00',
   enableNotificationOnKill: Platform.isIOS,
   androidFullScreenIntent: true,
 );
-

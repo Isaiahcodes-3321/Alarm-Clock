@@ -1,20 +1,23 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:alarm_clock/background_running.dart';
 import 'package:alarm_clock/view/nav_bar/nav_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  // init app to run on background
+  backgroundPermission();
+  // end
+  // init alarm
   await Alarm.init();
   await SystemChrome.setPreferredOrientations([]);
+  //init notification
   AwesomeNotifications().initialize(
-      // set the icon to null if you want to use the default app icon
+      // set the icon to null
       null,
       [
         NotificationChannel(
@@ -32,17 +35,27 @@ void main() async {
             channelGroupName: 'Basic group')
       ],
       debug: true);
-  // WidgetsBinding.instance.addPostFrameCallback((_) async {
-  //   await requestPermissionForAndroid();
-  //   initForegroundTask();
-  // });
-  // startForegroundTask();
+
   runApp(const MyApp());
 }
 
-@pragma('vm:entry-point')
-startCallback() {
-  FlutterForegroundTask.setTaskHandler(MyTaskHandler());
+// background permission
+backgroundPermission() async {
+  // FlutterBackground.initialize();
+
+  const androidConfig = FlutterBackgroundAndroidConfig(
+    notificationTitle: "flutter_background example app",
+    notificationText:
+        "App running in the background",
+    notificationImportance: AndroidNotificationImportance.Default,
+    notificationIcon: AndroidResource(
+        name: 'background_icon',
+        defType: 'drawable'), 
+  );
+  await FlutterBackground.initialize(androidConfig: androidConfig);
+
+  await FlutterBackground.hasPermissions;
+  await FlutterBackground.enableBackgroundExecution();
 }
 
 class MyApp extends StatelessWidget {

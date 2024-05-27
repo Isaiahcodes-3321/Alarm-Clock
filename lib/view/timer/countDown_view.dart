@@ -18,6 +18,9 @@ class CountDown extends StatelessWidget {
     return Consumer(builder: (context, ref, _) {
       refProvider = ref;
 
+      var fontStyle = AppTextStyle.boldMedium(
+        AppColors.blueColor,
+      );
       var fontStyle1 = AppTextStyle.largeBold(
         AppColors.blueColor,
       );
@@ -37,7 +40,27 @@ class CountDown extends StatelessWidget {
               ),
             ),
             ref.watch(isTimerSet)
-                ? widgetTimer()
+                ? TimerCountdown(
+                    colonsTextStyle: fontStyle1,
+                    timeTextStyle: fontStyle1,
+                    descriptionTextStyle: fontStyle,
+                    format: CountDownTimerFormat.hoursMinutesSeconds,
+                    endTime: DateTime.now().add(
+                      Duration(
+                        hours: ref.watch(intHour),
+                        minutes: ref.watch(intMin),
+                        seconds: ref.watch(intSec),
+                      ),
+                    ),
+                    onEnd: () async {
+                      getVibrationValue();
+                      getLoopingValue();
+                      getVolumeValue();
+                      EmptyTimer.emptyTimer();
+                      showNotification();
+                      print("Timer finished");
+                    },
+                  )
                 : Text(
                     '00 : 00 : 00',
                     style: fontStyle1,
@@ -71,37 +94,6 @@ class CountDown extends StatelessWidget {
     });
   }
 }
-
-widgetTimer() => Consumer(builder: (context, ref, _) {
-      refProvider = ref;
-      var fontStyle = AppTextStyle.boldMedium(
-        AppColors.blueColor,
-      );
-      var fontStyle1 = AppTextStyle.largeBold(
-        AppColors.blueColor,
-      );
-      return TimerCountdown(
-        colonsTextStyle: fontStyle1,
-        timeTextStyle: fontStyle1,
-        descriptionTextStyle: fontStyle,
-        format: CountDownTimerFormat.hoursMinutesSeconds,
-        endTime: DateTime.now().add(
-          Duration(
-            hours: ref.watch(intHour),
-            minutes: ref.watch(intMin),
-            seconds: ref.watch(intSec),
-          ),
-        ),
-        onEnd: () async {
-          getVibrationValue();
-          getLoopingValue();
-          getVolumeValue();
-          EmptyTimer.emptyTimer();
-          showNotification();
-          print("Timer finished");
-        },
-      );
-    });
 
 showNotification() => AwesomeNotifications().createNotification(
         content: NotificationContent(

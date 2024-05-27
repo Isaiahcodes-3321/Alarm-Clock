@@ -1,5 +1,5 @@
+import 'time_controller.dart';
 import 'package:alarm/alarm.dart';
-import '../timer/time_controller.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 
 

@@ -7,7 +7,7 @@ import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
 import 'package:alarm_clock/view/nav_bar/nav_controls.dart';
 import 'package:alarm_clock/view/stop_watch/st_provider.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:alarm_clock/view/nav_bar/notification_controller.dart';
+import 'package:alarm_clock/view/timer/notification_controller.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
