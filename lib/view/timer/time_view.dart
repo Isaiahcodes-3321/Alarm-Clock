@@ -1,4 +1,3 @@
-import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:alarm_clock/widgets/bar.dart';
 import 'package:alarm_clock/widgets/buttons.dart';
@@ -64,7 +63,6 @@ class ViewTimer extends StatelessWidget {
                                   child: popMenuText('Alarm Setting')),
                               PopupMenuItem(
                                   onTap: () async {
-                                    await Alarm.stop(alarmId);
                                     EmptyTimer.emptyTimer();
                                   },
                                   child: popMenuText('Reset Alarm'))

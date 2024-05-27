@@ -17,6 +17,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  awesome_notifications:
+    dependency: "direct main"
+    description:
+      name: awesome_notifications
+      sha256: d9e46ce7f5171ee1e9b1c5bc6dc40bd77528561f592842ce97ce3a0a9ae155ef
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.3+1"
+  awesome_notifications_core:
+    dependency: "direct main"
+    description:
+      name: awesome_notifications_core
+      sha256: "38c9f9d2618c0c2abe0cea267dc161aa8c4a0a239ca2263400900b9610f33e6f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -102,6 +118,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.0"
+  flutter_foreground_task:
+    dependency: "direct main"
+    description:
+      name: flutter_foreground_task
+      sha256: d40a1ddd5f275450d2e32055e7f884796c028a02ac26c751c20916576f79e132
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.0"
   flutter_lints:
     dependency: "direct dev"
     description:

@@ -6,6 +6,8 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
 import 'package:alarm_clock/view/nav_bar/nav_controls.dart';
 import 'package:alarm_clock/view/stop_watch/st_provider.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:alarm_clock/view/nav_bar/notification_controller.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,6 +17,29 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    AwesomeNotifications().setListeners(
+        onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+        onNotificationCreatedMethod:
+            NotificationController.onNotificationCreatedMethod,
+        onNotificationDisplayedMethod:
+            NotificationController.onNotificationDisplayedMethod,
+        onDismissActionReceivedMethod:
+            NotificationController.onDismissActionReceivedMethod);
+//
+
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        // This is just a basic example. For real apps, you must show some
+        // friendly dialog box before call the request method.
+        // This is very important to not harm the user experience
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
