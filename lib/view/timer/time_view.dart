@@ -30,6 +30,7 @@ class ViewTimer extends StatelessWidget {
               child: Column(
                 children: [
                   bar(
+                    '',
                     GestureDetector(
                         onTap: () {
                           showDialog(

@@ -63,7 +63,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return WithForegroundTask(
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
         return const ProviderScope(
@@ -73,7 +72,6 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      // ),
     );
   }
 }
