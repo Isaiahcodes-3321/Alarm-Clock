@@ -1,10 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:alarm_clock/widgets/bar.dart';
-import 'package:alarm_clock/themes/app_text.dart';
-import 'package:alarm_clock/themes/app_colors.dart';
-import 'package:alarm_clock/widgets/bottom_sheet.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:alarm_clock/view/alarm_view/setting_alarm/setting_view.dart';
+import 'alarm_export.dart';
+
 
 class ViewAlarm extends StatelessWidget {
   const ViewAlarm({super.key});
@@ -26,7 +21,7 @@ class ViewAlarm extends StatelessWidget {
                         context,
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
-                              const SettingAlarmView(),
+                               const SettingAlarmView(),
                         ),
                       );
                     },

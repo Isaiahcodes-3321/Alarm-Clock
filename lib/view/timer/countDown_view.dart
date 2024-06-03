@@ -1,14 +1,7 @@
+import 'time_export.dart';
 import 'package:flutter/material.dart';
-import 'package:alarm_clock/themes/app_text.dart';
-import 'package:alarm_clock/themes/app_colors.dart';
-import 'package:alarm_clock/widgets/bottom_sheet.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:alarm_clock/view/timer/time_provider.dart';
-import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
-import 'package:alarm_clock/view/timer/time_controller.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+
+
 
 class CountDown extends StatelessWidget {
   const CountDown({super.key});

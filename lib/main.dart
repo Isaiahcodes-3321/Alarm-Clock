@@ -25,7 +25,7 @@ void main() async {
             channelKey: 'basic_channel',
             channelName: 'Basic notifications',
             channelDescription: 'Notification channel for basic tests',
-            defaultColor: Color(0xFF9D50DD),
+            defaultColor: const Color(0xFF9D50DD),
             ledColor: Colors.white)
       ],
       // Channel groups are only visual and are not required
@@ -44,7 +44,7 @@ backgroundPermission() async {
   // FlutterBackground.initialize();
 
   const androidConfig = FlutterBackgroundAndroidConfig(
-    notificationTitle: "flutter_background example app",
+    notificationTitle: "",
     notificationText:
         "App running in the background",
     notificationImportance: AndroidNotificationImportance.Default,
@@ -58,6 +58,8 @@ backgroundPermission() async {
   await FlutterBackground.enableBackgroundExecution();
 }
 
+GlobalKey<NavigatorState> navigateKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -65,10 +67,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveSizer(
       builder: (context, orientation, screenType) {
-        return const ProviderScope(
+        return ProviderScope(
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: HomeView(),
+            navigatorKey: navigateKey,
+            home: const HomeView(),
           ),
         );
       },

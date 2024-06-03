@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:alarm_clock/view/timer/time_view.dart';
-import 'package:alarm_clock/view/timer/time_provider.dart';
-import 'package:alarm_clock/view/timer/timer_storage.dart';
-import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
-import 'package:alarm_clock/view/timer/time_controller.dart';
-import 'package:alarm_clock/view/alarm_view/view_alarm.dart';
-import 'package:alarm_clock/view/stop_watch/stop_watch_view.dart';
+import 'nav_export.dart';
+import '../alarm_view/view_alarm.dart';
+
+
 
 int selectedIndexView = 0;
 List<Widget> navViews = [

@@ -1,12 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:alarm_clock/widgets/buttons.dart';
-import 'package:alarm_clock/themes/app_text.dart';
-import 'package:alarm_clock/themes/app_colors.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
-import 'package:alarm_clock/view/stop_watch/st_provider.dart';
+import 'st_export.dart';
+
+
 
 class ViewStopWatch extends StatelessWidget {
   const ViewStopWatch({super.key});

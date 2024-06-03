@@ -1,18 +1,5 @@
+import 'time_export.dart';
 import 'package:flutter/material.dart';
-import 'package:alarm_clock/widgets/bar.dart';
-import 'package:alarm_clock/widgets/buttons.dart';
-import 'package:alarm_clock/themes/app_text.dart';
-import 'package:alarm_clock/themes/app_colors.dart';
-import 'package:alarm_clock/widgets/input_field.dart';
-import 'package:alarm_clock/widgets/bottom_sheet.dart';
-import 'package:alarm_clock/view/nav_bar/nav_view.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:alarm_clock/view/timer/timer_storage.dart';
-import 'package:alarm_clock/view/timer/time_provider.dart';
-import 'package:alarm_clock/view/timer/countDown_view.dart';
-import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
-import 'package:alarm_clock/view/timer/time_controller.dart';
 
 class ViewTimer extends StatelessWidget {
   const ViewTimer({super.key});

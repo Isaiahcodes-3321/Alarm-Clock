@@ -1,9 +1,6 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:alarm_clock/themes/app_text.dart';
-import 'package:alarm_clock/themes/app_colors.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'widget_export.dart';
+
+
 
 Widget bar(String text, Widget widgetIcon1, widgetIcon2) {
   return Column(

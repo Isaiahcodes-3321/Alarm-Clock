@@ -1,11 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:alarm_clock/themes/app_text.dart';
-import 'package:alarm_clock/themes/app_colors.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
-import 'package:alarm_clock/view/global_controls/global_storage.dart';
-import 'package:alarm_clock/view/global_controls/global_provider.dart';
+import 'widget_export.dart';
+
+
 
 class BottomSheetDisplay extends StatefulWidget {
   const BottomSheetDisplay({Key? key}) : super(key: key);
