@@ -1,9 +1,10 @@
 import '../alarm_export.dart';
+import 'package:alarm_clock/widgets/navigation.dart';
+import 'package:alarm_clock/view/nav_bar/nav_view.dart';
 import 'package:alarm_clock/view/alarm_view/setting_alarm/picking_alarm_date.dart';
 
-
 class SettingAlarmView extends StatelessWidget {
-  const SettingAlarmView({Key? key}) : super(key: key);
+  const SettingAlarmView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +25,13 @@ class SettingAlarmView extends StatelessWidget {
             Flexible(
                 flex: 6,
                 child: Container(
-                  width: 100.w,
-                  height: 100.h,
-                  // color: const Color.fromARGB(255, 92, 244, 54),
-                  child: const Align(alignment: Alignment.bottomCenter,
-                  child: DatePicking(),)
-                ))
+                    width: 100.w,
+                    height: 100.h,
+                    // color: const Color.fromARGB(255, 92, 244, 54),
+                    child: const Align(
+                      alignment: Alignment.bottomCenter,
+                      child: DatePicking(),
+                    )))
           ],
         ),
       )),
@@ -40,7 +42,17 @@ class SettingAlarmView extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [bottomVavText('Cancel'), bottomVavText('Save')],
+            children: [
+              GestureDetector(
+                onTap: () {
+                  navigationTo(const HomeView());
+                },
+                child: bottomVavText('Cancel'),
+              ),
+              GestureDetector(
+                child: bottomVavText('Save'),
+              )
+            ],
           ),
         ),
       ),

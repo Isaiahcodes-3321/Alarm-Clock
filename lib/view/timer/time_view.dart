@@ -1,5 +1,7 @@
 import 'time_export.dart';
 import 'package:flutter/material.dart';
+import 'package:alarm_clock/widgets/navigation.dart';
+
 
 class ViewTimer extends StatelessWidget {
   const ViewTimer({super.key});
@@ -195,12 +197,8 @@ dialog() => Consumer(builder: (context, ref, _) {
                     ref.read(featureTimePeriod.notifier).state =
                         getFeatureTimePe!;
 
-                    Navigator.push<void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => const HomeView(),
-                      ),
-                    );
+                     navigationTo(const HomeView());
+
                     await pref.setBool(StorageTimer.isTimerSet, true);
                     final bool? ifTimerIsSet =
                         pref.getBool(StorageTimer.isTimerSet);

@@ -11,3 +11,12 @@ final isThr = StateProvider((ref) => false);
 final isF = StateProvider((ref) => false);
 final isSat = StateProvider((ref) => false);
 final isSun = StateProvider((ref) => false);
+
+ // if any of the day are picked
+final isAnyDayPick = StateProvider((ref) => false);
+final daysSelected = StateProvider((ref) => '');
+final isCalenderDatePicked = StateProvider((ref) => false);
+final dateSelectedOnCalender = StateProvider((ref) => '');
+
+
+

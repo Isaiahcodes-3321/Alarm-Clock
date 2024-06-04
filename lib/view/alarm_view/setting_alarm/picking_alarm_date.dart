@@ -11,6 +11,10 @@ class DatePicking extends StatelessWidget {
 
     String formattedDate = DateFormat('E, d MMM').format(tomorrow);
 
+    var inputTextStyle = AppTextStyle.medium(
+      AppColors.whiteColor,
+    );
+
     return Container(
       width: 100.w,
       height: 40.h,
@@ -21,26 +25,53 @@ class DatePicking extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.only(top: 30, left: 7.w, right: 7.w),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                whiteText('Tomorrow - $formattedDate'),
-                GestureDetector(
-                  onTap: () {
-                    AlarmControllers.displayDatePiker();
-                  },
-                  child: Icon(
-                    Icons.calendar_month_outlined,
-                    color: AppColors.whiteColor,
-                    size: 25,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Consumer(builder: (context, ref, _) {
+                    refProvider = ref;
+                    return refProvider.watch(isCalenderDatePicked)
+                        ? whiteText(refProvider.watch(dateSelectedOnCalender))
+                        : refProvider.watch(isAnyDayPick)
+                            ? whiteText(
+                                'Every - ${refProvider.watch(daysSelected)}')
+                            : whiteText('Tomorrow - $formattedDate');
+                  }),
+                  GestureDetector(
+                    onTap: () {
+                      AlarmControllers.displayDatePiker();
+                    },
+                    child: Icon(
+                      Icons.calendar_month_outlined,
+                      color: AppColors.whiteColor,
+                      size: 25,
+                    ),
+                  )
+                ],
+              ),
+              const PickDay(),
+              SizedBox(
+                height: 2.h,
+              ),
+              TextField(
+                controller: TextEditingController(),
+                style: inputTextStyle,
+                decoration: InputDecoration(
+                  hintText: 'Name of Alarm',
+                  hintStyle: inputTextStyle,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.blueColor),
                   ),
-                )
-              ],
-            ),
-            const PickDay()
-          ],
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.blueColor),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -62,16 +93,19 @@ class PickDay extends StatelessWidget {
               ref.watch(isM) ? AppColors.blueColor : AppColors.backgroundColor,
               () {
             ref.read(isM.notifier).state = !ref.read(isM.notifier).state;
+            AlarmControllers.isDayPick();
           }),
           dayCircle('T',
               ref.watch(isT) ? AppColors.blueColor : AppColors.backgroundColor,
               () {
             ref.read(isT.notifier).state = !ref.read(isT.notifier).state;
+            AlarmControllers.isDayPick();
           }),
           dayCircle('W',
               ref.watch(isW) ? AppColors.blueColor : AppColors.backgroundColor,
               () {
             ref.read(isW.notifier).state = !ref.read(isW.notifier).state;
+            AlarmControllers.isDayPick();
           }),
           dayCircle(
               'T',
@@ -79,11 +113,13 @@ class PickDay extends StatelessWidget {
                   ? AppColors.blueColor
                   : AppColors.backgroundColor, () {
             ref.read(isThr.notifier).state = !ref.read(isThr.notifier).state;
+            AlarmControllers.isDayPick();
           }),
           dayCircle('F',
               ref.watch(isF) ? AppColors.blueColor : AppColors.backgroundColor,
               () {
             ref.read(isF.notifier).state = !ref.read(isF.notifier).state;
+            AlarmControllers.isDayPick();
           }),
           dayCircle(
               'S',
@@ -91,6 +127,7 @@ class PickDay extends StatelessWidget {
                   ? AppColors.blueColor
                   : AppColors.backgroundColor, () {
             ref.read(isSat.notifier).state = !ref.read(isSat.notifier).state;
+            AlarmControllers.isDayPick();
           }),
           dayCircle(
               'S',
@@ -98,6 +135,7 @@ class PickDay extends StatelessWidget {
                   ? AppColors.blueColor
                   : AppColors.backgroundColor, () {
             ref.read(isSun.notifier).state = !ref.read(isSun.notifier).state;
+            AlarmControllers.isDayPick();
           }),
         ],
       );
