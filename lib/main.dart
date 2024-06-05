@@ -1,3 +1,4 @@
+import 'widgets/navigation.dart';
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_background/flutter_background.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +60,6 @@ backgroundPermission() async {
   await FlutterBackground.enableBackgroundExecution();
 }
 
-GlobalKey<NavigatorState> navigateKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

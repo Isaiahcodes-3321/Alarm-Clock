@@ -2,71 +2,66 @@ import 'time_export.dart';
 import 'package:flutter/material.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 
-
 class ViewTimer extends StatelessWidget {
   const ViewTimer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, _) {
-      double iconSize = 24;
-      return Container(
-          width: 100.w,
-          height: 100.h,
-          color: AppColors.backgroundColor,
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  bar(
-                    '',
-                    GestureDetector(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              content: SizedBox(
-                                height: 18.h,
-                                child: dialog(),
-                              ),
-                              backgroundColor: AppColors.lightGreyColor,
-                            ),
-                          );
-                        },
-                        child: Icon(
-                          Icons.add,
-                          color: AppColors.whiteColor,
-                          size: iconSize,
-                        )),
-                    PopupMenuButton(
-                        iconSize: iconSize,
-                        iconColor: AppColors.whiteColor,
-                        color: AppColors.lightGreyColor,
-                        itemBuilder: (context) => [
-                              PopupMenuItem(
-                                  onTap: () {
-                                    Scaffold.of(context).showBottomSheet(
-                                        (BuildContext context) {
-                                      return const BottomSheetDisplay();
-                                    });
-                                  },
-                                  child: popMenuText('Alarm Setting')),
-                              PopupMenuItem(
-                                  onTap: () async {
-                                    EmptyTimer.emptyTimer();
-                                  },
-                                  child: popMenuText('Reset Alarm'))
-                            ]),
-                  ),
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  const CountDown()
-                ],
-              ),
+    double iconSize = 24;
+    return SizedBox(
+      width: 100.w,
+      height: 100.h,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            bar(
+              '',
+              GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        content: SizedBox(
+                          height: 18.h,
+                          child: dialog(),
+                        ),
+                        backgroundColor: AppColors.lightGreyColor,
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.add,
+                    color: AppColors.whiteColor,
+                    size: iconSize,
+                  )),
+              PopupMenuButton(
+                  iconSize: iconSize,
+                  iconColor: AppColors.whiteColor,
+                  color: AppColors.lightGreyColor,
+                  itemBuilder: (context) => [
+                        PopupMenuItem(
+                            onTap: () {
+                              Scaffold.of(context)
+                                  .showBottomSheet((BuildContext context) {
+                                return const BottomSheetDisplay();
+                              });
+                            },
+                            child: popMenuText('Alarm Setting')),
+                        PopupMenuItem(
+                            onTap: () async {
+                              EmptyTimer.emptyTimer();
+                            },
+                            child: popMenuText('Reset Alarm'))
+                      ]),
             ),
-          ));
-    });
+            SizedBox(
+              height: 3.h,
+            ),
+            const CountDown()
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -197,7 +192,7 @@ dialog() => Consumer(builder: (context, ref, _) {
                     ref.read(featureTimePeriod.notifier).state =
                         getFeatureTimePe!;
 
-                     navigationTo(const HomeView());
+                    navigationTo(const HomeView());
 
                     await pref.setBool(StorageTimer.isTimerSet, true);
                     final bool? ifTimerIsSet =

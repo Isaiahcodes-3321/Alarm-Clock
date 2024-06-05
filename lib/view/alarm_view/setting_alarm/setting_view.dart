@@ -11,30 +11,36 @@ class SettingAlarmView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
-          child: SizedBox(
-        width: 100.w,
-        height: 100.h,
-        child: Column(
-          children: [
-            Flexible(
-                flex: 4,
-                child: SizedBox(
-                  width: 60.w,
-                  child: const TimePicker(),
-                )),
-            Flexible(
-                flex: 6,
-                child: Container(
-                    width: 100.w,
-                    height: 100.h,
-                    // color: const Color.fromARGB(255, 92, 244, 54),
-                    child: const Align(
-                      alignment: Alignment.bottomCenter,
-                      child: DatePicking(),
-                    )))
-          ],
+        child: AnimatedBorderContainer(
+          pageName: SizedBox(
+            width: 100.w,
+            height: 100.h,
+            child: Column(
+              children: [
+                Flexible(
+                    flex: 4,
+                    child: SizedBox(
+                      width: 60.w,
+                      child: const TimePicker(),
+                    )),
+                Flexible(
+                    flex: 6,
+                    child: SizedBox(
+                        width: 98.5.w,
+                        height: 100.h,
+                        // color: const Color.fromARGB(255, 92, 244, 54),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 0.5.h),
+                            child: const DatePicking(),
+                          ),
+                        )))
+              ],
+            ),
+          ),
         ),
-      )),
+      ),
       bottomNavigationBar: SafeArea(
         child: Container(
           color: AppColors.backgroundColor,

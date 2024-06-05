@@ -28,7 +28,7 @@ class CountDown extends StatelessWidget {
               height: 45.h,
               child: CircularProgressIndicator(
                 strokeWidth: 3.w,
-                backgroundColor: AppColors.redColor,
+                backgroundColor: AppColors.whiteColor,
                 valueColor: AlwaysStoppedAnimation(AppColors.blueColor),
               ),
             ),
