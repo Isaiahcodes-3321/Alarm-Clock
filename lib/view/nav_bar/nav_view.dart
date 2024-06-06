@@ -111,7 +111,7 @@ class _AnimatedBorderContainerState extends State<AnimatedBorderContainer>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 5),
       vsync: this,
     )..repeat();
   }

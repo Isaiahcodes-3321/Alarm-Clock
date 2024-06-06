@@ -1,10 +1,7 @@
 import 'time_export.dart';
 import 'package:flutter/material.dart';
 
-
-
 // ignore_for_file: avoid_print
-
 
 class TimerInputControls {
   static ifHourInputEmpty() {
@@ -66,7 +63,6 @@ class GetCurrentTime {
 
     final int? endTimeSec = pref.getInt(StorageTimer.timerKeySec);
     // Convert current time to minutes since midnight
-
     final nowTime = DateTime(
       DateTime.now().year,
       DateTime.now().month,
@@ -82,28 +78,38 @@ class GetCurrentTime {
     print('current time $currentTimeString');
     print('end time $featureEndTime');
 
-    Duration difference = endTime.difference(currentTime);
+    // Convert times to integer representation (in minutes since midnight)
+    int intCurrentTime = currentTime.hour * 60 + currentTime.minute;
+    int intEndTime = endTime.hour * 60 + endTime.minute;
+    if (intCurrentTime > intEndTime) {
+      EmptyTimer.emptyTimer();
+      showNotification();
+      print('Current time is greater than end time.');
+    } else {
+      print('Current time is not greater than end time.');
 
-    if (difference.isNegative) {
-      final endTimeTomorrow = endTime.add(const Duration(days: 1));
-      difference = endTimeTomorrow.difference(currentTime);
+      Duration difference = endTime.difference(currentTime);
+
+      if (difference.isNegative) {
+        final endTimeTomorrow = endTime.add(const Duration(days: 1));
+        difference = endTimeTomorrow.difference(currentTime);
+      }
+
+      // get the remaining time
+      final remainingHours = difference.inHours;
+      final remainingMinutes = difference.inMinutes.remainder(60);
+
+      //calculate sec
+      final DateTime secNow = DateTime.now();
+      final int currentSec = secNow.second;
+      int getRemainingSec = endTimeSec! - currentSec;
+
+      refProvider.read(intHour.notifier).state = remainingHours;
+      refProvider.read(intMin.notifier).state = remainingMinutes;
+      refProvider.read(intSec.notifier).state = getRemainingSec;
+      print(
+          'Remaining time:  hours $remainingHours minutes $remainingMinutes sec $getRemainingSec');
     }
-
-    // Print the remaining time
-    final remainingHours = difference.inHours;
-    final remainingMinutes = difference.inMinutes.remainder(60);
-
-    //calculate sec
-    final DateTime secNow = DateTime.now();
-    final int currentSec = secNow.second;
-    int getRemainingSec = endTimeSec! - currentSec;
-    refProvider.read(intHour.notifier).state = remainingHours;
-    refProvider.read(intMin.notifier).state = remainingMinutes;
-    refProvider.read(intSec.notifier).state = getRemainingSec;
-
-    print('current sec $getRemainingSec');
-    print(
-        'Remaining time: $remainingHours hours and $remainingMinutes minutes');
   }
 }
 

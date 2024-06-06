@@ -19,7 +19,7 @@ timerSettings() async {
           //if the timer true or false have not been set
       refProvider.read(isTimerSet.notifier).state = false;
     } else {
-      //if the timer true or false its set
+      //if the timer true or false is set
       refProvider.read(isTimerSet.notifier).state = ifTimerIsSet;
     }
     GetCurrentTime.isTimerEmpty();
