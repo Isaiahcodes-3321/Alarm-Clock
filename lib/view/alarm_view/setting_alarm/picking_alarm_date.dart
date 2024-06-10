@@ -1,6 +1,8 @@
+import 'setting_alarm_controls.dart';
 import 'package:alarm_clock/view/timer/time_export.dart';
 import 'package:alarm_clock/view/alarm_view/alarm_export.dart';
 import 'package:alarm_clock/view/alarm_view/alarm_controller.dart';
+
 
 class DatePicking extends StatelessWidget {
   const DatePicking({Key? key}) : super(key: key);
@@ -36,8 +38,19 @@ class DatePicking extends StatelessWidget {
                     return refProvider.watch(isCalenderDatePicked)
                         ? whiteText(refProvider.watch(dateSelectedOnCalender))
                         : refProvider.watch(isAnyDayPick)
-                            ? whiteText(
-                                'Every - ${refProvider.watch(daysSelected)}')
+                            ? Row(
+                                children: [
+                                  whiteText(
+                                      'Every - ${refProvider.watch(allDaysSelected)}'),
+                                  whiteText(refProvider.watch(monText)),
+                                  whiteText(refProvider.watch(tueText)),
+                                  whiteText(refProvider.watch(wedText)),
+                                  whiteText(refProvider.watch(thrText)),
+                                  whiteText(refProvider.watch(friText)),
+                                  whiteText(refProvider.watch(satText)),
+                                  whiteText(refProvider.watch(sunText))
+                                ],
+                              )
                             : whiteText('Tomorrow - $formattedDate');
                   }),
                   GestureDetector(
@@ -93,19 +106,19 @@ class PickDay extends StatelessWidget {
               ref.watch(isM) ? AppColors.blueColor : AppColors.backgroundColor,
               () {
             ref.read(isM.notifier).state = !ref.read(isM.notifier).state;
-            AlarmControllers.isDayPick();
+          SettingAlarmControls.isDayPick();
           }),
           dayCircle('T',
               ref.watch(isT) ? AppColors.blueColor : AppColors.backgroundColor,
               () {
             ref.read(isT.notifier).state = !ref.read(isT.notifier).state;
-            AlarmControllers.isDayPick();
+          SettingAlarmControls.isDayPick();
           }),
           dayCircle('W',
               ref.watch(isW) ? AppColors.blueColor : AppColors.backgroundColor,
               () {
             ref.read(isW.notifier).state = !ref.read(isW.notifier).state;
-            AlarmControllers.isDayPick();
+            SettingAlarmControls.isDayPick();
           }),
           dayCircle(
               'T',
@@ -113,13 +126,13 @@ class PickDay extends StatelessWidget {
                   ? AppColors.blueColor
                   : AppColors.backgroundColor, () {
             ref.read(isThr.notifier).state = !ref.read(isThr.notifier).state;
-            AlarmControllers.isDayPick();
+            SettingAlarmControls.isDayPick();
           }),
           dayCircle('F',
               ref.watch(isF) ? AppColors.blueColor : AppColors.backgroundColor,
               () {
             ref.read(isF.notifier).state = !ref.read(isF.notifier).state;
-            AlarmControllers.isDayPick();
+            SettingAlarmControls.isDayPick();
           }),
           dayCircle(
               'S',
@@ -127,7 +140,7 @@ class PickDay extends StatelessWidget {
                   ? AppColors.blueColor
                   : AppColors.backgroundColor, () {
             ref.read(isSat.notifier).state = !ref.read(isSat.notifier).state;
-            AlarmControllers.isDayPick();
+            SettingAlarmControls.isDayPick();
           }),
           dayCircle(
               'S',
@@ -135,7 +148,7 @@ class PickDay extends StatelessWidget {
                   ? AppColors.blueColor
                   : AppColors.backgroundColor, () {
             ref.read(isSun.notifier).state = !ref.read(isSun.notifier).state;
-            AlarmControllers.isDayPick();
+            SettingAlarmControls.isDayPick();
           }),
         ],
       );

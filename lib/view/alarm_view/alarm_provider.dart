@@ -14,9 +14,16 @@ final isSun = StateProvider((ref) => false);
 
  // if any of the day are picked
 final isAnyDayPick = StateProvider((ref) => false);
-final daysSelected = StateProvider((ref) => '');
+final allDaysSelected = StateProvider((ref) => '');
 final isCalenderDatePicked = StateProvider((ref) => false);
 final dateSelectedOnCalender = StateProvider((ref) => '');
 
-
+// if a particular day is selected
+final monText = StateProvider((ref) => '');
+final tueText = StateProvider((ref) => '');
+final wedText = StateProvider((ref) => '');
+final thrText = StateProvider((ref) => '');
+final friText = StateProvider((ref) => '');
+final satText = StateProvider((ref) => '');
+final sunText = StateProvider((ref) => '');
 

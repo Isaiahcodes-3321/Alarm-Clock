@@ -1,10 +1,25 @@
 import '../alarm_export.dart';
+import 'setting_alarm_controls.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
+import 'package:alarm_clock/widgets/wheel_picker.dart';
 import 'package:alarm_clock/view/nav_bar/nav_view.dart';
 import 'package:alarm_clock/view/alarm_view/setting_alarm/picking_alarm_date.dart';
 
-class SettingAlarmView extends StatelessWidget {
+class SettingAlarmView extends StatefulWidget {
   const SettingAlarmView({super.key});
+
+  @override
+  State<SettingAlarmView> createState() => _SettingAlarmViewState();
+}
+
+class _SettingAlarmViewState extends State<SettingAlarmView> {
+  @override
+  void initState() {
+    super.initState();
+    alarmSelectedHourIndex = alarmHoursWheel.initialIndex;
+    alarmSelectedMinuteIndex = alarmMinutesWheel.initialIndex;
+    alarmSelectedPeriodIndex = alarmPeriodWheel.initialIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +33,34 @@ class SettingAlarmView extends StatelessWidget {
             child: Column(
               children: [
                 Flexible(
-                    flex: 4,
-                    child: SizedBox(
-                      width: 60.w,
-                      child: const TimePicker(),
-                    )),
+                  flex: 4,
+                  child: SizedBox(
+                    width: 60.w,
+                    child: PickTime(
+                      hoursWheel: alarmHoursWheel,
+                      hourIndexChange: (index) {
+                        setState(() {
+                          alarmSelectedHourIndex = index;
+                          printSelectedHour();
+                        });
+                      },
+                      minuteWheel: alarmMinutesWheel,
+                      minuteIndexChange: (index) {
+                        setState(() {
+                          alarmSelectedMinuteIndex = index;
+                          printSelectedMinute();
+                        });
+                      },
+                      periodWheel: alarmPeriodWheel,
+                      periodIndexChange: (index) {
+                        setState(() {
+                          alarmSelectedPeriodIndex = index;
+                          printSelectedPeriod();
+                        });
+                      },
+                    ),
+                  ),
+                ),
                 Flexible(
                     flex: 6,
                     child: SizedBox(
@@ -51,7 +89,7 @@ class SettingAlarmView extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  navigationTo(const HomeView());
+                  navigateTo(const HomeView());
                 },
                 child: bottomVavText('Cancel'),
               ),
@@ -63,6 +101,14 @@ class SettingAlarmView extends StatelessWidget {
         ),
       ),
     );
+  }
+  
+  @override
+  void dispose() {
+   alarmHoursWheel.dispose();
+    alarmMinutesWheel.dispose();
+    alarmPeriodWheel.dispose();
+    super.dispose();
   }
 }
 
@@ -86,155 +132,156 @@ pikerTimeTextPeriod(String text) => Text(
       ),
     );
 
+
 // picking time
-class TimePicker extends StatefulWidget {
-  const TimePicker({super.key});
+// class TimePicker extends StatefulWidget {
+//   const TimePicker({super.key});
 
-  @override
-  State<TimePicker> createState() => _TimePickerState();
-}
+//   @override
+//   State<TimePicker> createState() => _TimePickerState();
+// }
 
-class _TimePickerState extends State<TimePicker> {
-  final now = TimeOfDay.now();
-  late final hoursWheel = WheelPickerController(
-    itemCount: 12,
-    initialIndex: (now.hour % 12) - 1,
-  );
-  late final minutesWheel = WheelPickerController(
-    itemCount: 60,
-    initialIndex: now.minute - 1,
-    mounts: [hoursWheel],
-  );
-  late final periodWheel = WheelPickerController(
-    itemCount: 2,
-    initialIndex: (now.period == DayPeriod.am) ? 0 : 1,
-  );
+// class _TimePickerState extends State<TimePicker> {
+//   final now = TimeOfDay.now();
+//   late final hoursWheel = WheelPickerController(
+//     itemCount: 12,
+//     initialIndex: (now.hour % 12) - 1,
+//   );
+//   late final minutesWheel = WheelPickerController(
+//     itemCount: 60,
+//     initialIndex: now.minute - 1,
+//     mounts: [hoursWheel],
+//   );
+//   late final periodWheel = WheelPickerController(
+//     itemCount: 2,
+//     initialIndex: (now.period == DayPeriod.am) ? 0 : 1,
+//   );
 
-  int selectedHourIndex = 0;
-  int selectedMinuteIndex = 0;
-  int selectedPeriodIndex = 0;
+//   int selectedHourIndex = 0;
+//   int selectedMinuteIndex = 0;
+//   int selectedPeriodIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    selectedHourIndex = hoursWheel.initialIndex;
-    selectedMinuteIndex = minutesWheel.initialIndex;
-    selectedPeriodIndex = periodWheel.initialIndex;
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     selectedHourIndex = hoursWheel.initialIndex;
+//     selectedMinuteIndex = minutesWheel.initialIndex;
+//     selectedPeriodIndex = periodWheel.initialIndex;
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    const textStyle = TextStyle(fontSize: 26.0, height: 1.5);
-    final wheelStyle = WheelPickerStyle(
-      size: 200,
-      itemExtent: textStyle.fontSize! * textStyle.height!,
-      squeeze: 1.2,
-      diameterRatio: .9,
-      surroundingOpacity: .40,
-      magnification: 1.4,
-    );
+//   @override
+//   Widget build(BuildContext context) {
+//     const textStyle = TextStyle(fontSize: 26.0, height: 1.5);
+//     final wheelStyle = WheelPickerStyle(
+//       size: 200,
+//       itemExtent: textStyle.fontSize! * textStyle.height!,
+//       squeeze: 1.2,
+//       diameterRatio: .9,
+//       surroundingOpacity: .40,
+//       magnification: 1.4,
+//     );
 
-    Widget hourItemBuilder(BuildContext context, int index) {
-      int hour = (index + 1) % 12;
-      if (hour == 0) hour = 12;
-      return pikerTimeText("$hour".padLeft(2, '0'));
-    }
+//     Widget hourItemBuilder(BuildContext context, int index) {
+//       int hour = (index + 1) % 12;
+//       if (hour == 0) hour = 12;
+//       return pikerTimeText("$hour".padLeft(2, '0'));
+//     }
 
-    Widget minuteItemBuilder(BuildContext context, int index) {
-      return pikerTimeText("${(index + 1)}".padLeft(2, '0'));
-    }
+//     Widget minuteItemBuilder(BuildContext context, int index) {
+//       return pikerTimeText("${(index + 1)}".padLeft(2, '0'));
+//     }
 
-    void printSelectedHour() {
-      final hour = (selectedHourIndex + 1) % 12;
-      refProvider.read(selectedHour.notifier).state = hour;
-      // print("Selected hour: ${hour == 0 ? 12 : hour}");
-    }
+//     void printSelectedHour() {
+//       final hour = (selectedHourIndex + 1) % 12;
+//       refProvider.read(selectedHour.notifier).state = hour;
+//       // print("Selected hour: ${hour == 0 ? 12 : hour}");
+//     }
 
-    void printSelectedMinute() {
-      final minute = selectedMinuteIndex + 1;
-      refProvider.read(selectedMin.notifier).state = minute;
-      // print("Selected minute: $minute");
-    }
+//     void printSelectedMinute() {
+//       final minute = selectedMinuteIndex + 1;
+//       refProvider.read(selectedMin.notifier).state = minute;
+//       // print("Selected minute: $minute");
+//     }
 
-    void printSelectedPeriod() {
-      final period = selectedPeriodIndex == 0 ? "AM" : "PM";
-      refProvider.read(selectedPeriod.notifier).state = period;
-      // print("Selected period: $period");
-    }
+//     void printSelectedPeriod() {
+//       final period = selectedPeriodIndex == 0 ? "AM" : "PM";
+//       refProvider.read(selectedPeriod.notifier).state = period;
+//       // print("Selected period: $period");
+//     }
 
-    return Consumer(
-      builder: (_, WidgetRef ref, __) {
-        refProvider = ref;
-        return SizedBox(
-          width: 200.0,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  WheelPicker(
-                    builder: hourItemBuilder,
-                    controller: hoursWheel,
-                    looping: true,
-                    style: wheelStyle,
-                    onIndexChanged: (index) {
-                      setState(() {
-                        selectedHourIndex = index;
-                        printSelectedHour();
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: 6.h,
-                    child: pikerTimeText(":"),
-                  ),
-                  WheelPicker(
-                    builder: minuteItemBuilder,
-                    controller: minutesWheel,
-                    style: wheelStyle,
-                    enableTap: true,
-                    onIndexChanged: (index) {
-                      setState(() {
-                        selectedMinuteIndex = index;
-                        printSelectedMinute();
-                      });
-                    },
-                  ),
-                  WheelPicker(
-                    builder: (context, index) {
-                      return pikerTimeTextPeriod(["AM", "PM"][index]);
-                    },
-                    controller: periodWheel,
-                    looping: false,
-                    style: wheelStyle.copyWith(
-                      shiftAnimationStyle: const WheelShiftAnimationStyle(
-                        duration: Duration(seconds: 1),
-                        curve: Curves.bounceOut,
-                      ),
-                    ),
-                    onIndexChanged: (index) {
-                      setState(() {
-                        selectedPeriodIndex = index;
-                        printSelectedPeriod();
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+//     return Consumer(
+//       builder: (_, WidgetRef ref, __) {
+//         refProvider = ref;
+//         return SizedBox(
+//           width: 200.0,
+//           child: Stack(
+//             fit: StackFit.expand,
+//             children: [
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 children: [
+//                   WheelPicker(
+//                     builder: hourItemBuilder,
+//                     controller: hoursWheel,
+//                     looping: true,
+//                     style: wheelStyle,
+//                     onIndexChanged: (index) {
+//                       setState(() {
+//                         selectedHourIndex = index;
+//                         printSelectedHour();
+//                       });
+//                     },
+//                   ),
+//                   SizedBox(
+//                     height: 6.h,
+//                     child: pikerTimeText(":"),
+//                   ),
+//                   WheelPicker(
+//                     builder: minuteItemBuilder,
+//                     controller: minutesWheel,
+//                     style: wheelStyle,
+//                     enableTap: true,
+//                     onIndexChanged: (index) {
+//                       setState(() {
+//                         selectedMinuteIndex = index;
+//                         printSelectedMinute();
+//                       });
+//                     },
+//                   ),
+//                   WheelPicker(
+//                     builder: (context, index) {
+//                       return pikerTimeTextPeriod(["AM", "PM"][index]);
+//                     },
+//                     controller: periodWheel,
+//                     looping: false,
+//                     style: wheelStyle.copyWith(
+//                       shiftAnimationStyle: const WheelShiftAnimationStyle(
+//                         duration: Duration(seconds: 1),
+//                         curve: Curves.bounceOut,
+//                       ),
+//                     ),
+//                     onIndexChanged: (index) {
+//                       setState(() {
+//                         selectedPeriodIndex = index;
+//                         printSelectedPeriod();
+//                       });
+//                     },
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
 
-  @override
-  void dispose() {
-    hoursWheel.dispose();
-    minutesWheel.dispose();
-    periodWheel.dispose();
-    super.dispose();
-  }
-}
+//   @override
+//   void dispose() {
+//     hoursWheel.dispose();
+//     minutesWheel.dispose();
+//     periodWheel.dispose();
+//     super.dispose();
+//   }
+// }

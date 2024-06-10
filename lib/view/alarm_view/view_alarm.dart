@@ -1,5 +1,6 @@
 import 'alarm_export.dart';
-
+import 'package:alarm_clock/widgets/navigation.dart';
+import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bad_time_view.dart';
 
 class ViewAlarm extends StatelessWidget {
   const ViewAlarm({super.key});
@@ -16,13 +17,7 @@ class ViewAlarm extends StatelessWidget {
               'Alarm',
               GestureDetector(
                   onTap: () {
-                    Navigator.push<void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                             const SettingAlarmView(),
-                      ),
-                    );
+                    navigateTo(const SettingAlarmView());
                   },
                   child: Icon(
                     Icons.add,
@@ -43,9 +38,10 @@ class ViewAlarm extends StatelessWidget {
                             },
                             child: popMenuText('Alarm Setting')),
                         PopupMenuItem(
-                            onTap: () {},
-                            child:
-                                popMenuText('Set bedtime and wake-up time')),
+                            onTap: () {
+                              navigateTo(const BadTimeView());
+                            },
+                            child: popMenuText('Set bedtime and wake-up time')),
                       ]),
             ),
           ],
@@ -53,7 +49,7 @@ class ViewAlarm extends StatelessWidget {
   }
 }
 
-popMenuText(String text) => Text(
+Text popMenuText(String text) => Text(
       text,
       style: AppTextStyle.mediumSmall(
         AppColors.whiteColor,

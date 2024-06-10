@@ -2,7 +2,6 @@ import 'package:intl/intl.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 import 'package:alarm_clock/view/alarm_view/alarm_export.dart';
 
-
 class AlarmControllers {
   static DateTime selectedDate = DateTime.now();
   static displayDatePiker() async {
@@ -25,35 +24,7 @@ class AlarmControllers {
     }
   }
 
-  // check if any of the day its picked
-  static isDayPick() {
-    if (refProvider.watch(isM) ||
-        refProvider.watch(isT) ||
-        refProvider.watch(isW) ||
-        refProvider.watch(isThr) ||
-        refProvider.watch(isF) ||
-        refProvider.watch(isSat) ||
-        refProvider.watch(isSun)) {
-      refProvider.read(isCalenderDatePicked.notifier).state = false;
-      refProvider.read(isAnyDayPick.notifier).state = true;
-    } else {
-      refProvider.read(isAnyDayPick.notifier).state = false;
-    }
-
-    if (refProvider.watch(isM) &&
-        refProvider.watch(isT) &&
-        refProvider.watch(isW) &&
-        refProvider.watch(isThr) &&
-        refProvider.watch(isF) &&
-        refProvider.watch(isSat) &&
-        refProvider.watch(isSun)) {
-      refProvider.read(daysSelected.notifier).state = 'Day';
-    } else {
-      refProvider.read(daysSelected.notifier).state = '';
-    }
-
-    print('iff ${refProvider.watch(isAnyDayPick)}');
-  }
+ 
 }
 
 

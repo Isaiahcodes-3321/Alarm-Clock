@@ -192,7 +192,7 @@ dialog() => Consumer(builder: (context, ref, _) {
                     ref.read(featureTimePeriod.notifier).state =
                         getFeatureTimePe!;
 
-                    navigationTo(const HomeView());
+                    navigateTo(const HomeView());
 
                     await pref.setBool(StorageTimer.isTimerSet, true);
                     final bool? ifTimerIsSet =
@@ -210,7 +210,7 @@ dialog() => Consumer(builder: (context, ref, _) {
       );
     });
 
-inputBox(Widget widget) => SizedBox(
+SizedBox inputBox(Widget widget) => SizedBox(
       width: 15.w,
       height: 6.h,
       child: Padding(
@@ -219,14 +219,14 @@ inputBox(Widget widget) => SizedBox(
       ),
     );
 
-separator() => Text(
+Text separator() => Text(
       ':',
       style: AppTextStyle.medium(
         AppColors.blueColor,
       ),
     );
 
-popMenuText(String text) => Text(
+Text popMenuText(String text) => Text(
       text,
       style: AppTextStyle.mediumSmall(
         AppColors.whiteColor,
