@@ -22,19 +22,19 @@ final alarmPeriodWheel = WheelPickerController(
 void printSelectedHour() {
   final hour = (alarmSelectedHourIndex + 1) % 12;
   refProvider.read(selectedHour.notifier).state = hour;
-  // print("Selected hour: ${hour == 0 ? 12 : hour}");
+  print("Selected alarm hour: ${hour == 0 ? 12 : hour}");
 }
 
 void printSelectedMinute() {
   final minute = alarmSelectedMinuteIndex + 1;
   refProvider.read(selectedMin.notifier).state = minute;
-  // print("Selected minute: $minute");
+  print("Selected alarm minute: $minute");
 }
 
 void printSelectedPeriod() {
   final period = alarmSelectedPeriodIndex == 0 ? "AM" : "PM";
   refProvider.read(selectedPeriod.notifier).state = period;
-  // print("Selected period: $period");
+  print("Selected alarm period: $period");
 }
 
 

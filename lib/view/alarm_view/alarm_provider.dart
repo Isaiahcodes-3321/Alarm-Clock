@@ -27,3 +27,17 @@ final friText = StateProvider((ref) => '');
 final satText = StateProvider((ref) => '');
 final sunText = StateProvider((ref) => '');
 
+// bedtime selected variables
+final bedTimeSelectedHour = StateProvider((ref) => 0);
+final bedTimeSelectedMin = StateProvider((ref) => 0);
+final bedTimeSelectedPeriod = StateProvider((ref) => '');
+
+
+// wakeUp time selected variables
+final wakeTimeSelectedHour = StateProvider((ref) => 0);
+final wakeTimeSelectedMin = StateProvider((ref) => 0);
+final wakeTimeSelectedPeriod = StateProvider((ref) => '');
+
+// sleeping period variables
+final sleepingPeriodHour = StateProvider((ref) => 0);
+final sleepingPeriodMin = StateProvider((ref) => 0);

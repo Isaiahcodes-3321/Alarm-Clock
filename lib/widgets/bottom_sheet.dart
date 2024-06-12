@@ -71,7 +71,7 @@ class _BottomSheetDisplayState extends State<BottomSheetDisplay> {
     });
   }
 
-  text(String text) => Text(
+ Text text(String text) => Text(
         text,
         style: AppTextStyle.mediumSmall(
           AppColors.whiteColor,

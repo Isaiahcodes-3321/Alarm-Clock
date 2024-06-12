@@ -72,7 +72,8 @@ class PickTime extends StatelessWidget {
                       onIndexChanged: minuteIndexChange),
                   WheelPicker(
                       builder: (context, index) {
-                        return pikerTimeTextPeriod(["AM", "PM"][index]);
+                        return pikerTimeText(["AM", "PM"][index],
+                            fontColor: AppColors.redColor);
                       },
                       controller: periodWheel,
                       looping: false,
@@ -93,16 +94,9 @@ class PickTime extends StatelessWidget {
   }
 }
 
-Text pikerTimeText(String text) => Text(
+Text pikerTimeText(String text, {Color? fontColor}) => Text(
       text,
       style: AppTextStyle.bold(
-        AppColors.whiteColor,
-      ),
-    );
-
-Text pikerTimeTextPeriod(String text) => Text(
-      text,
-      style: AppTextStyle.bold(
-        AppColors.redColor,
+        fontColor ?? AppColors.whiteColor,
       ),
     );

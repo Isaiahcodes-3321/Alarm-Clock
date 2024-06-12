@@ -13,4 +13,7 @@ navigateTo(Widget className) {
   );
 }
 
-
+popScreenTo() {
+  BuildContext context = navigateKey.currentContext!;
+  Navigator.pop(context);
+}

@@ -181,13 +181,13 @@ class PickDay extends StatelessWidget {
   }
 }
 
-whiteText(String text) => Text(
+Text whiteText(String text) => Text(
       text,
       style: AppTextStyle.boldMedium(
         AppColors.whiteColor,
       ),
     );
-blueText(String text) => Text(
+Text blueText(String text) => Text(
       text,
       style: AppTextStyle.bold(
         AppColors.blueColor,

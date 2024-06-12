@@ -1,6 +1,7 @@
 import 'alarm_export.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bad_time_view.dart';
+import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bed_time_controls.dart';
 
 class ViewAlarm extends StatelessWidget {
   const ViewAlarm({super.key});
@@ -39,6 +40,8 @@ class ViewAlarm extends StatelessWidget {
                             child: popMenuText('Alarm Setting')),
                         PopupMenuItem(
                             onTap: () {
+                              GetSleepingPeriod.getAllTime();
+                              GetSleepingPeriod.getSleepingPeriod();
                               navigateTo(const BadTimeView());
                             },
                             child: popMenuText('Set bedtime and wake-up time')),
