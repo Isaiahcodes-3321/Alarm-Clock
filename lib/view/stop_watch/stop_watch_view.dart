@@ -7,7 +7,7 @@ class ViewStopWatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StopWatchTimer _stopWatchTimer = StopWatchTimer();
+    final StopWatchTimer stopWatchTimer = StopWatchTimer();
 
     int ht = 3;
     int wth = 100;
@@ -19,125 +19,122 @@ class ViewStopWatch extends StatelessWidget {
           children: [
             Flexible(
                 flex: 8,
-                child: Container(
-                  // color: Colors.red,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 6.h,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 6.h,
+                    ),
+                    Center(
+                      child: StreamBuilder<int>(
+                        stream: stopWatchTimer.rawTime,
+                        initialData: 0,
+                        builder: (context, snap) {
+                          final value = snap.data;
+                          final displayTime =
+                              StopWatchTimer.getDisplayTime(value!);
+                          return Column(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 100.w,
+                                child: Center(
+                                  child: Text(
+                                    displayTime,
+                                    style: AppTextStyle.largeBold(
+                                      AppColors.whiteColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                // color: Colors.red,
+                                width: 65.w,
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                        flex: 3,
+                                        child: SizedBox(
+                                          width: wth.w,
+                                          height: ht.h,
+                                          child: hmsTex('Hour'),
+                                        )),
+                                    Flexible(
+                                        flex: 3,
+                                        child: SizedBox(
+                                          width: wth.w,
+                                          height: ht.h,
+                                          child: hmsTex('Min'),
+                                        )),
+                                    Flexible(
+                                        flex: 5,
+                                        child: SizedBox(
+                                          width: wth.w,
+                                          height: ht.h,
+                                          child: hmsTex('Sec'),
+                                        )),
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                        },
                       ),
-                      Center(
-                        child: StreamBuilder<int>(
-                          stream: _stopWatchTimer.rawTime,
-                          initialData: 0,
-                          builder: (context, snap) {
-                            final value = snap.data;
-                            final displayTime =
-                                StopWatchTimer.getDisplayTime(value!);
-                            return Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 100.w,
-                                  child: Center(
+                    ),
+                    
+                    // lap time
+                    SizedBox(
+                      height: 3.h,
+                    ),
+                    SizedBox(
+                      width: 35.w,
+                      child: Consumer(builder: (context, ref, _) {
+                        refProvider = ref;
+                        return ref.watch(isLapButtonClick)
+                            ? Text(
+                                'Lap',
+                                style: AppTextStyle.boldMedium(
+                                  AppColors.whiteColor,
+                                ),
+                              )
+                            : const Text('');
+                      }),
+                    ),
+                    SizedBox(
+                      width: 55.w,
+                      height: 45.h,
+                      // color: Colors.red,
+                      child: StreamBuilder<List<StopWatchRecord>>(
+                        stream: stopWatchTimer.records,
+                        initialData: const [],
+                        builder: (context, snap) {
+                          final value = snap.data;
+                          return ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (BuildContext context, int index) {
+                              final data = value[index];
+                              return Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
                                     child: Text(
-                                      displayTime,
-                                      style: AppTextStyle.largeBold(
+                                      '${index + 1}:    ${data.displayTime}',
+                                      style: AppTextStyle.boldMedium(
                                         AppColors.whiteColor,
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  // color: Colors.red,
-                                  width: 65.w,
-                                  child: Row(
-                                    children: [
-                                      Flexible(
-                                          flex: 3,
-                                          child: SizedBox(
-                                            width: wth.w,
-                                            height: ht.h,
-                                            child: hmsTex('Hour'),
-                                          )),
-                                      Flexible(
-                                          flex: 3,
-                                          child: SizedBox(
-                                            width: wth.w,
-                                            height: ht.h,
-                                            child: hmsTex('Min'),
-                                          )),
-                                      Flexible(
-                                          flex: 5,
-                                          child: SizedBox(
-                                            width: wth.w,
-                                            height: ht.h,
-                                            child: hmsTex('Sec'),
-                                          )),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            );
-                          },
-                        ),
+                                  const Divider(
+                                      height: 1,
+                                      color:
+                                          Color.fromARGB(255, 43, 43, 43))
+                                ],
+                              );
+                            },
+                            itemCount: value!.length,
+                          );
+                        },
                       ),
-    
-                      // lap time
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      SizedBox(
-                        width: 35.w,
-                        child: Consumer(builder: (context, ref, _) {
-                          refProvider = ref;
-                          return ref.watch(isLapButtonClick)
-                              ? Text(
-                                  'Lap',
-                                  style: AppTextStyle.boldMedium(
-                                    AppColors.whiteColor,
-                                  ),
-                                )
-                              : const Text('');
-                        }),
-                      ),
-                      SizedBox(
-                        width: 55.w,
-                        height: 45.h,
-                        // color: Colors.red,
-                        child: StreamBuilder<List<StopWatchRecord>>(
-                          stream: _stopWatchTimer.records,
-                          initialData: const [],
-                          builder: (context, snap) {
-                            final value = snap.data;
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (BuildContext context, int index) {
-                                final data = value[index];
-                                return Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        '${index + 1}:    ${data.displayTime}',
-                                        style: AppTextStyle.boldMedium(
-                                          AppColors.whiteColor,
-                                        ),
-                                      ),
-                                    ),
-                                    const Divider(
-                                        height: 1,
-                                        color:
-                                            Color.fromARGB(255, 43, 43, 43))
-                                  ],
-                                );
-                              },
-                              itemCount: value!.length,
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 )),
             Flexible(
                 flex: 2,
@@ -154,7 +151,7 @@ class ViewStopWatch extends StatelessWidget {
                                       AppColors.blueColor,
                                       AppColors.whiteColor, () {
                                     // Reset timer
-                                    _stopWatchTimer.onResetTimer();
+                                    stopWatchTimer.onResetTimer();
                                     ref
                                         .read(isLapButtonClick.notifier)
                                         .state = false;
@@ -168,7 +165,7 @@ class ViewStopWatch extends StatelessWidget {
                                         .read(isStartButtonClick.notifier)
                                         .state = false;
                                     // Start timer
-                                    _stopWatchTimer.onStartTimer();
+                                    stopWatchTimer.onStartTimer();
                                   }),
                                 )
                               : buttonsRow(
@@ -177,7 +174,7 @@ class ViewStopWatch extends StatelessWidget {
                                       AppColors.blueColor,
                                       AppColors.whiteColor, () {
                                     // Lap time
-                                    _stopWatchTimer.onAddLap();
+                                    stopWatchTimer.onAddLap();
                                     ref
                                         .read(isLapButtonClick.notifier)
                                         .state = true;
@@ -191,7 +188,7 @@ class ViewStopWatch extends StatelessWidget {
                                         .read(isStartButtonClick.notifier)
                                         .state = true;
                                     // Stop timer.
-                                    _stopWatchTimer.onStopTimer();
+                                    stopWatchTimer.onStopTimer();
                                   }),
                                 )));
                 }))
@@ -202,13 +199,13 @@ class ViewStopWatch extends StatelessWidget {
   }
 }
 
-buttonsRow(Widget button1, button2) => Row(
+Row buttonsRow(Widget button1, button2) => Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [button1, button2],
     );
 // widget to display description for hour minutes seconds
-hmsTex(String text) => Text(
+Text hmsTex(String text) => Text(
       text,
       style: AppTextStyle.bold(AppColors.blueColor),
     );

@@ -158,7 +158,8 @@ class BorderPainter extends CustomPainter {
     ).createShader(Rect.fromLTWH(0.0, 0.0, size.width, size.height));
 
     final Rect rect = Rect.fromLTWH(0.0, 0.0, size.width, size.height);
-    final RRect rRect = RRect.fromRectAndRadius(rect, const Radius.circular(0.0));
+    final RRect rRect =
+        RRect.fromRectAndRadius(rect, const Radius.circular(0.0));
 
     canvas.drawRRect(rRect, paint);
   }

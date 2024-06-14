@@ -12,7 +12,7 @@ final isF = StateProvider((ref) => false);
 final isSat = StateProvider((ref) => false);
 final isSun = StateProvider((ref) => false);
 
- // if any of the day are picked
+ // if any of the day are picked when setting alarm
 final isAnyDayPick = StateProvider((ref) => false);
 final allDaysSelected = StateProvider((ref) => '');
 final isCalenderDatePicked = StateProvider((ref) => false);

@@ -12,14 +12,14 @@ class PickTime extends StatelessWidget {
   final ValueChanged<int> periodIndexChange;
 
   const PickTime({
-    Key? key,
+    super.key,
     required this.hoursWheel,
     required this.hourIndexChange,
     required this.minuteWheel,
     required this.minuteIndexChange,
     required this.periodWheel,
     required this.periodIndexChange,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

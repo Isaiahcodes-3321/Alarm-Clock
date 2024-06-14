@@ -3,7 +3,7 @@ import 'widget_export.dart';
 
 
 class BottomSheetDisplay extends StatefulWidget {
-  const BottomSheetDisplay({Key? key}) : super(key: key);
+  const BottomSheetDisplay({super.key});
 
   @override
   State<BottomSheetDisplay> createState() => _BottomSheetDisplayState();

@@ -6,15 +6,16 @@ class AppTextStyle {
 
   static double boldFont = 23;
   static double largeBoldFont = 50;
+  static double mediumBoldFont = 40;
   static double mediumFont = 18;
   static double smallFont = 13;
 
   // bold font
-  static TextStyle largeBold(
-    Color color,
-  ) {
+  static TextStyle largeBold(Color color, {double? fontSize}) {
     return TextStyle(
-        color: color, fontSize: largeBoldFont, fontFamily: fontFamilyBold);
+        color: color,
+        fontSize: fontSize ?? largeBoldFont,
+        fontFamily: fontFamilyBold);
   }
 
   // bold font

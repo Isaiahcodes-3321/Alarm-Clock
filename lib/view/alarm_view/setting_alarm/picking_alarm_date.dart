@@ -5,7 +5,7 @@ import 'package:alarm_clock/view/alarm_view/alarm_controller.dart';
 
 
 class DatePicking extends StatelessWidget {
-  const DatePicking({Key? key}) : super(key: key);
+  const DatePicking({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -103,19 +103,19 @@ class PickDay extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           dayCircle('M',
-              ref.watch(isM) ? AppColors.blueColor : AppColors.backgroundColor,
+              ref.watch(isM) ? AppColors.blueColor : AppColors.bottomSheetColor,
               () {
             ref.read(isM.notifier).state = !ref.read(isM.notifier).state;
           SettingAlarmControls.isDayPick();
           }),
           dayCircle('T',
-              ref.watch(isT) ? AppColors.blueColor : AppColors.backgroundColor,
+              ref.watch(isT) ? AppColors.blueColor : AppColors.bottomSheetColor,
               () {
             ref.read(isT.notifier).state = !ref.read(isT.notifier).state;
           SettingAlarmControls.isDayPick();
           }),
           dayCircle('W',
-              ref.watch(isW) ? AppColors.blueColor : AppColors.backgroundColor,
+              ref.watch(isW) ? AppColors.blueColor : AppColors.bottomSheetColor,
               () {
             ref.read(isW.notifier).state = !ref.read(isW.notifier).state;
             SettingAlarmControls.isDayPick();
@@ -124,12 +124,12 @@ class PickDay extends StatelessWidget {
               'T',
               ref.watch(isThr)
                   ? AppColors.blueColor
-                  : AppColors.backgroundColor, () {
+                  : AppColors.bottomSheetColor, () {
             ref.read(isThr.notifier).state = !ref.read(isThr.notifier).state;
             SettingAlarmControls.isDayPick();
           }),
           dayCircle('F',
-              ref.watch(isF) ? AppColors.blueColor : AppColors.backgroundColor,
+              ref.watch(isF) ? AppColors.blueColor : AppColors.bottomSheetColor,
               () {
             ref.read(isF.notifier).state = !ref.read(isF.notifier).state;
             SettingAlarmControls.isDayPick();
@@ -138,7 +138,7 @@ class PickDay extends StatelessWidget {
               'S',
               ref.watch(isSat)
                   ? AppColors.blueColor
-                  : AppColors.backgroundColor, () {
+                  : AppColors.bottomSheetColor, () {
             ref.read(isSat.notifier).state = !ref.read(isSat.notifier).state;
             SettingAlarmControls.isDayPick();
           }),
@@ -146,13 +146,13 @@ class PickDay extends StatelessWidget {
               'S',
               ref.watch(isSun)
                   ? AppColors.blueColor
-                  : AppColors.backgroundColor, () {
+                  : AppColors.bottomSheetColor, () {
             ref.read(isSun.notifier).state = !ref.read(isSun.notifier).state;
             SettingAlarmControls.isDayPick();
           }),
         ],
       );
-    });
+    }); 
   }
 
   Widget dayCircle(String text, Color borderColor, VoidCallback onTap) {

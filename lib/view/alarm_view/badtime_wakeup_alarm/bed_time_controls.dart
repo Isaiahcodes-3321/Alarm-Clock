@@ -1,4 +1,6 @@
 import '../alarm_export.dart';
+import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bed_time_storage.dart';
+import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bedtime_provider.dart';
 
 class BedTimePicker {
   static int bedTimeSelectedHourIndex = 0;
@@ -142,5 +144,82 @@ class GetSleepingPeriod {
     // Print the sleeping period
     // print(
     //     'Sleeping period: $sleepingHours hours and $sleepingRemainingMinutes minutes');
+  }
+}
+
+class SaveBedTime {
+  static isBedSetTrue() async {
+    final pref = await StorageBedTime.objPreBedTime();
+    await pref.setBool(StorageBedTime.showBedTimeKey, true);
+  }
+
+  static saveInfoBedTime() async {
+    final pref = await StorageBedTime.objPreBedTime();
+    if (refProvider.watch(isBedTimeM)) {
+      await pref.setString(StorageBedTime.mKey, 'MON');
+    }
+    if (refProvider.watch(isBedTimeT)) {
+      await pref.setString(StorageBedTime.tKey, 'TUE');
+    }
+    if (refProvider.watch(isBedTimeW)) {
+      await pref.setString(StorageBedTime.wKey, 'WED');
+    }
+    if (refProvider.watch(isBedTimeThr)) {
+      await pref.setString(StorageBedTime.thuKey, 'THU');
+    }
+    if (refProvider.watch(isBedTimeF)) {
+      await pref.setString(StorageBedTime.thuKey, 'FRI');
+    }
+    if (refProvider.watch(isBedTimeSat)) {
+      await pref.setString(StorageBedTime.thuKey, 'SAT');
+    }
+    if (refProvider.watch(isBedTimeSun)) {
+      await pref.setString(StorageBedTime.thuKey, 'SUN');
+    }
+  }
+
+  static saveInfoWakeTime() async {
+    final pref = await StorageBedTime.objPreBedTime();
+    await pref.setInt(
+        StorageBedTime.bedTimeKeyHr, refProvider.watch(bedTimeSelectedHour));
+    await pref.setInt(
+        StorageBedTime.bedTimeKeyMin, refProvider.watch(bedTimeSelectedMin));
+    await pref.setString(
+        StorageBedTime.bedTimeKeyPr, refProvider.watch(bedTimeSelectedPeriod));
+
+    // wake up time
+    await pref.setInt(
+        StorageBedTime.wakeTimeKeyHr, refProvider.watch(wakeTimeSelectedHour));
+    await pref.setInt(
+        StorageBedTime.wakeTimeKeyMin, refProvider.watch(wakeTimeSelectedMin));
+    await pref.setString(StorageBedTime.wakeTimeKeyPr,
+        refProvider.watch(wakeTimeSelectedPeriod));
+  }
+}
+
+class WakeUpTime {
+  static ifBedTimeIsTrue() async {
+    final pref = await StorageBedTime.objPreBedTime();
+    final bool? getBedTimeTrueValue =
+        pref.getBool(StorageBedTime.showBedTimeKey);
+    refProvider.read(isBedSet.notifier).state = getBedTimeTrueValue;
+    // get bedtime and wake up time
+    final int? getBedTimeHr = pref.getInt(StorageBedTime.bedTimeKeyHr);
+    final int? getBedTimeMin = pref.getInt(StorageBedTime.bedTimeKeyMin);
+    final String? getBedTimePer = pref.getString(StorageBedTime.bedTimeKeyPr);
+    // get wake up time
+    final int? getWakeTimeHr = pref.getInt(StorageBedTime.wakeTimeKeyHr);
+    final int? getWakeTimeMin = pref.getInt(StorageBedTime.wakeTimeKeyMin);
+    final String? getWakeTimePer = pref.getString(StorageBedTime.wakeTimeKeyPr);
+
+    // update provider to display bed time to user
+    refProvider.read(displayBedTimeHr.notifier).state = getBedTimeHr;
+    refProvider.read(displayBedTimeMin.notifier).state = getBedTimeMin;
+    refProvider.read(displayBedTimePr.notifier).state = getBedTimePer;
+
+    /// update provider to display the saved bedtime and wake up time
+    refProvider.read(displayWakeTimeHr.notifier).state = getWakeTimeHr;
+    refProvider.read(displayWakeTimeMin.notifier).state = getWakeTimeMin;
+    refProvider.read(displayWakeTimePr.notifier).state = getWakeTimePer;
   }
 }

@@ -1,10 +1,24 @@
 import 'alarm_export.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bad_time_view.dart';
+import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bed_time_listTile.dart';
 import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bed_time_controls.dart';
 
-class ViewAlarm extends StatelessWidget {
+class ViewAlarm extends StatefulWidget {
   const ViewAlarm({super.key});
+
+  @override
+  State<ViewAlarm> createState() => _ViewAlarmState();
+}
+
+class _ViewAlarmState extends State<ViewAlarm> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WakeUpTime.ifBedTimeIsTrue();
+    print('hey man');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +46,7 @@ class ViewAlarm extends StatelessWidget {
                   itemBuilder: (context) => [
                         PopupMenuItem(
                             onTap: () {
+                              // to display bottom sheet widget to set alarm volume
                               Scaffold.of(context)
                                   .showBottomSheet((BuildContext context) {
                                 return const BottomSheetDisplay();
@@ -47,6 +62,11 @@ class ViewAlarm extends StatelessWidget {
                             child: popMenuText('Set bedtime and wake-up time')),
                       ]),
             ),
+            SizedBox(
+              height: 4.h,
+            ),
+            // class to show the listTile that bed time and wake-up time its set
+            const BedTimeListTile(),
           ],
         ));
   }
