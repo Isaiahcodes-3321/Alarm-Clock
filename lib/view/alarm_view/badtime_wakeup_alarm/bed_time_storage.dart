@@ -15,7 +15,13 @@ class StorageBedTime {
   static String fKey = 'fKey';
   static String satKey = 'satKey';
   static String sunKey = 'sunKey';
-
+  static String isMSelectedKey = 'isMSelectedKey';
+  static String isTSelectedKey = 'isTSelectedKey';
+  static String isWSelectedKey = 'isWSelectedKey';
+  static String isThuSelectedKey = 'isThuSelectedKey';
+  static String isFSelectedKey = 'isFSelectedKey';
+  static String isSatSelectedKey = 'isSatSelectedKey';
+  static String isSunSelectedKey = 'isSunSelectedKey';
 
   static objPreBedTime() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

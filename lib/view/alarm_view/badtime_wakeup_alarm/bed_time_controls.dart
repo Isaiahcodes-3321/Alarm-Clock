@@ -1,4 +1,7 @@
 import '../alarm_export.dart';
+import 'package:alarm_clock/widgets/navigation.dart';
+import 'package:alarm_clock/view/nav_bar/nav_view.dart';
+import 'package:alarm_clock/widgets/show_snackbar.dart';
 import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bed_time_storage.dart';
 import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bedtime_provider.dart';
 
@@ -148,6 +151,26 @@ class GetSleepingPeriod {
 }
 
 class SaveBedTime {
+  // before user save the sleep time check if user picked any day
+  static ifDayNotSet() {
+    if (refProvider.watch(isBedTimeM) ||
+        refProvider.watch(isBedTimeT) ||
+        refProvider.watch(isBedTimeW) ||
+        refProvider.watch(isBedTimeThr) ||
+        refProvider.watch(isBedTimeF) ||
+        refProvider.watch(isBedTimeSat) ||
+        refProvider.watch(isBedTimeSun)) {
+      GetSleepingPeriod.getAllTime();
+      SaveBedTime.isBedSetTrue();
+      SaveBedTime.saveInfoBedTime();
+      SaveBedTime.saveInfoWakeTime();
+      navigateTo(const HomeView());
+    } else {
+      BuildContext context = navigateKey.currentContext!;
+      showCustomSnackBar(context, 'You have not pick a day!');
+    }
+  }
+
   static isBedSetTrue() async {
     final pref = await StorageBedTime.objPreBedTime();
     await pref.setBool(StorageBedTime.showBedTimeKey, true);
@@ -155,26 +178,48 @@ class SaveBedTime {
 
   static saveInfoBedTime() async {
     final pref = await StorageBedTime.objPreBedTime();
+
     if (refProvider.watch(isBedTimeM)) {
       await pref.setString(StorageBedTime.mKey, 'MON');
+      await pref.setBool(StorageBedTime.isMSelectedKey, true);
+    } else {
+      refProvider.read(setMonText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeT)) {
       await pref.setString(StorageBedTime.tKey, 'TUE');
+      await pref.setBool(StorageBedTime.isTSelectedKey, true);
+    } else {
+      refProvider.read(setTueText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeW)) {
       await pref.setString(StorageBedTime.wKey, 'WED');
+      await pref.setBool(StorageBedTime.isWSelectedKey, true);
+    } else {
+      refProvider.read(setWedText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeThr)) {
       await pref.setString(StorageBedTime.thuKey, 'THU');
+      await pref.setBool(StorageBedTime.isThuSelectedKey, true);
+    } else {
+      refProvider.read(setThuText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeF)) {
       await pref.setString(StorageBedTime.thuKey, 'FRI');
+      await pref.setBool(StorageBedTime.isFSelectedKey, true);
+    } else {
+      refProvider.read(setFriText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeSat)) {
       await pref.setString(StorageBedTime.thuKey, 'SAT');
+      await pref.setBool(StorageBedTime.isSatSelectedKey, true);
+    } else {
+      refProvider.read(setSatText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeSun)) {
       await pref.setString(StorageBedTime.thuKey, 'SUN');
+      await pref.setBool(StorageBedTime.isSunSelectedKey, true);
+    } else {
+      refProvider.read(setSunText.notifier).state = '';
     }
   }
 
@@ -194,6 +239,9 @@ class SaveBedTime {
         StorageBedTime.wakeTimeKeyMin, refProvider.watch(wakeTimeSelectedMin));
     await pref.setString(StorageBedTime.wakeTimeKeyPr,
         refProvider.watch(wakeTimeSelectedPeriod));
+
+    // call wake up time and bed time to update the screen before navigating
+    WakeUpTime.ifBedTimeIsTrue();
   }
 }
 
@@ -221,5 +269,87 @@ class WakeUpTime {
     refProvider.read(displayWakeTimeHr.notifier).state = getWakeTimeHr;
     refProvider.read(displayWakeTimeMin.notifier).state = getWakeTimeMin;
     refProvider.read(displayWakeTimePr.notifier).state = getWakeTimePer;
+
+    // get days selected
+    final bool? getDaySelectedM = pref.getBool(StorageBedTime.isMSelectedKey);
+    final bool? getDaySelectedT = pref.getBool(StorageBedTime.isTSelectedKey);
+    final bool? getDaySelectedW = pref.getBool(StorageBedTime.isWSelectedKey);
+    final bool? getDaySelectedThu =
+        pref.getBool(StorageBedTime.isThuSelectedKey);
+    final bool? getDaySelectedF = pref.getBool(StorageBedTime.isFSelectedKey);
+    final bool? getDaySelectedSat =
+        pref.getBool(StorageBedTime.isSatSelectedKey);
+    final bool? getDaySelectedSun =
+        pref.getBool(StorageBedTime.isSunSelectedKey);
+
+    // update the providers holding the days saved
+    refProvider.read(isBedTimeM.notifier).state = getDaySelectedM;
+    refProvider.read(isBedTimeT.notifier).state = getDaySelectedT;
+    refProvider.read(isBedTimeW.notifier).state = getDaySelectedW;
+    refProvider.read(isBedTimeThr.notifier).state = getDaySelectedThu;
+    refProvider.read(isBedTimeF.notifier).state = getDaySelectedF;
+    refProvider.read(isBedTimeSat.notifier).state = getDaySelectedSat;
+    refProvider.read(isBedTimeSun.notifier).state = getDaySelectedSun;
+
+    // get the days saved
+    final String? getTextDaySavedM = pref.getString(StorageBedTime.mKey);
+    final String? getTextDaySavedT = pref.getString(StorageBedTime.tKey);
+    final String? getTextDaySavedW = pref.getString(StorageBedTime.wKey);
+    final String? getTextDaySavedThu = pref.getString(StorageBedTime.thuKey);
+    final String? getTextDaySavedF = pref.getString(StorageBedTime.fKey);
+    final String? getTextDaySavedSat = pref.getString(StorageBedTime.satKey);
+    final String? getTextDaySavedSun = pref.getString(StorageBedTime.sunKey);
+
+    // update the providers displaying saved days
+    refProvider.read(setMonText.notifier).state = getTextDaySavedM;
+    refProvider.read(setTueText.notifier).state = getTextDaySavedT;
+    refProvider.read(setWedText.notifier).state = getTextDaySavedW;
+    refProvider.read(setThuText.notifier).state = getTextDaySavedThu;
+    refProvider.read(setFriText.notifier).state = getTextDaySavedF;
+    refProvider.read(setSatText.notifier).state = getTextDaySavedSat;
+    refProvider.read(setSunText.notifier).state = getTextDaySavedSun;
+  }
+}
+
+class ClearBedTime {
+  static emptyStorage() async {
+    final pref = await StorageBedTime.objPreBedTime();
+    await pref.setBool(StorageBedTime.showBedTimeKey, false);
+    refProvider.read(isBedSet.notifier).state = false;
+//
+    await pref.setString(StorageBedTime.mKey, '');
+    await pref.setString(StorageBedTime.tKey, '');
+    await pref.setString(StorageBedTime.wKey, '');
+    await pref.setString(StorageBedTime.thuKey, '');
+    await pref.setString(StorageBedTime.thuKey, '');
+    await pref.setString(StorageBedTime.thuKey, '');
+    await pref.setString(StorageBedTime.thuKey, '');
+
+    //
+    refProvider.read(setMonText.notifier).state = '';
+    refProvider.read(setTueText.notifier).state = '';
+    refProvider.read(setWedText.notifier).state = '';
+    refProvider.read(setThuText.notifier).state = '';
+    refProvider.read(setFriText.notifier).state = '';
+    refProvider.read(setSatText.notifier).state = '';
+    refProvider.read(setSunText.notifier).state = '';
+
+    //
+    await pref.setInt(StorageBedTime.bedTimeKeyHr, 0);
+    await pref.setInt(StorageBedTime.bedTimeKeyMin, 0);
+    await pref.setString(StorageBedTime.bedTimeKeyPr, '');
+    //
+    await pref.setInt(StorageBedTime.wakeTimeKeyHr, 0);
+    await pref.setInt(StorageBedTime.wakeTimeKeyMin, 0);
+    await pref.setString(StorageBedTime.wakeTimeKeyPr, '');
+    //
+    await pref.setBool(StorageBedTime.isMSelectedKey, false);
+    await pref.setBool(StorageBedTime.isTSelectedKey, false);
+    await pref.setBool(StorageBedTime.isWSelectedKey, false);
+    await pref.setBool(StorageBedTime.isThuSelectedKey, false);
+    await pref.setBool(StorageBedTime.isFSelectedKey, false);
+    await pref.setBool(StorageBedTime.isSatSelectedKey, false);
+    await pref.setBool(StorageBedTime.isSunSelectedKey, false);
+    // navigateTo(const HomeView());
   }
 }

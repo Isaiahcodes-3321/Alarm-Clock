@@ -1,4 +1,5 @@
 import 'alarm_export.dart';
+import 'badtime_wakeup_alarm/bedtime_provider.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bad_time_view.dart';
 import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bed_time_listTile.dart';
@@ -55,6 +56,20 @@ class _ViewAlarmState extends State<ViewAlarm> {
                             child: popMenuText('Alarm Setting')),
                         PopupMenuItem(
                             onTap: () {
+                              refProvider.read(isBedTimeM.notifier).state =
+                                  false;
+                              refProvider.read(isBedTimeT.notifier).state =
+                                  false;
+                              refProvider.read(isBedTimeW.notifier).state =
+                                  false;
+                              refProvider.read(isBedTimeThr.notifier).state =
+                                  false;
+                              refProvider.read(isBedTimeF.notifier).state =
+                                  false;
+                              refProvider.read(isBedTimeSat.notifier).state =
+                                  false;
+                              refProvider.read(isBedTimeSun.notifier).state =
+                                  false;
                               GetSleepingPeriod.getAllTime();
                               GetSleepingPeriod.getSleepingPeriod();
                               navigateTo(const BadTimeView());

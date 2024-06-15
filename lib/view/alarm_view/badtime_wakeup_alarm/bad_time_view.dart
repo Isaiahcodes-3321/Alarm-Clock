@@ -49,11 +49,7 @@ class BadTimeView extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    GetSleepingPeriod.getAllTime();
-                    SaveBedTime.isBedSetTrue();
-                    SaveBedTime.saveInfoBedTime();
-                    SaveBedTime.saveInfoWakeTime();
-                    navigateTo(const HomeView());
+                    SaveBedTime.ifDayNotSet();
                   },
                   child: bottomVavText('Save'),
                 )
