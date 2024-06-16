@@ -1,9 +1,9 @@
 import 'alarm_export.dart';
-import 'badtime_wakeup_alarm/bedtime_provider.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
-import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bad_time_view.dart';
-import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bed_time_listTile.dart';
-import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bed_time_controls.dart';
+import 'bad_time_wakeup_alarm/bed_time_provider.dart';
+import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bad_time_view.dart';
+import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_listTile.dart';
+import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_controls.dart';
 
 class ViewAlarm extends StatefulWidget {
   const ViewAlarm({super.key});
@@ -18,7 +18,6 @@ class _ViewAlarmState extends State<ViewAlarm> {
     // TODO: implement initState
     super.initState();
     WakeUpTime.ifBedTimeIsTrue();
-    print('hey man');
   }
 
   @override

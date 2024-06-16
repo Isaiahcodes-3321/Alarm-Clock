@@ -1,4 +1,4 @@
-import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bedtime_export.dart';
+import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_export.dart';
 
 class BedTimeListTile extends StatelessWidget {
   const BedTimeListTile({super.key});

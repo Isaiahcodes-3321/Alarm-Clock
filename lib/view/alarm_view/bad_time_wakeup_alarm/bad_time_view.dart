@@ -1,6 +1,6 @@
-import 'bedtime_export.dart';
+import 'bed_time_export.dart';
 import '../alarm_export.dart';
-import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/pick_days.dart';
+import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/pick_days.dart';
 
 class BadTimeView extends StatelessWidget {
   const BadTimeView({super.key});

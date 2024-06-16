@@ -2,8 +2,8 @@ import '../alarm_export.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 import 'package:alarm_clock/view/nav_bar/nav_view.dart';
 import 'package:alarm_clock/widgets/show_snackbar.dart';
-import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bed_time_storage.dart';
-import 'package:alarm_clock/view/alarm_view/badtime_wakeup_alarm/bedtime_provider.dart';
+import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_storage.dart';
+import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_provider.dart';
 
 class BedTimePicker {
   static int bedTimeSelectedHourIndex = 0;
@@ -160,17 +160,18 @@ class SaveBedTime {
         refProvider.watch(isBedTimeF) ||
         refProvider.watch(isBedTimeSat) ||
         refProvider.watch(isBedTimeSun)) {
+      // calling this 4 function have to be a step by step way
       GetSleepingPeriod.getAllTime();
       SaveBedTime.isBedSetTrue();
       SaveBedTime.saveInfoBedTime();
       SaveBedTime.saveInfoWakeTime();
-      navigateTo(const HomeView());
     } else {
       BuildContext context = navigateKey.currentContext!;
       showCustomSnackBar(context, 'You have not pick a day!');
     }
   }
 
+  // set the visibility of bedtime listView if user have set it already
   static isBedSetTrue() async {
     final pref = await StorageBedTime.objPreBedTime();
     await pref.setBool(StorageBedTime.showBedTimeKey, true);
@@ -185,12 +186,14 @@ class SaveBedTime {
     } else {
       refProvider.read(setMonText.notifier).state = '';
     }
+    //
     if (refProvider.watch(isBedTimeT)) {
       await pref.setString(StorageBedTime.tKey, 'TUE');
       await pref.setBool(StorageBedTime.isTSelectedKey, true);
     } else {
       refProvider.read(setTueText.notifier).state = '';
     }
+    //
     if (refProvider.watch(isBedTimeW)) {
       await pref.setString(StorageBedTime.wKey, 'WED');
       await pref.setBool(StorageBedTime.isWSelectedKey, true);
@@ -204,23 +207,27 @@ class SaveBedTime {
       refProvider.read(setThuText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeF)) {
-      await pref.setString(StorageBedTime.thuKey, 'FRI');
+      await pref.setString(StorageBedTime.fKey, 'FRI');
       await pref.setBool(StorageBedTime.isFSelectedKey, true);
     } else {
       refProvider.read(setFriText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeSat)) {
-      await pref.setString(StorageBedTime.thuKey, 'SAT');
+      await pref.setString(StorageBedTime.satKey, 'SAT');
       await pref.setBool(StorageBedTime.isSatSelectedKey, true);
     } else {
       refProvider.read(setSatText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeSun)) {
-      await pref.setString(StorageBedTime.thuKey, 'SUN');
+      await pref.setString(StorageBedTime.sunKey, 'SUN');
       await pref.setBool(StorageBedTime.isSunSelectedKey, true);
     } else {
       refProvider.read(setSunText.notifier).state = '';
     }
+    const Duration(seconds: 1);
+    navigateTo(const HomeView());
+    // call wake up time and bed time to update the screen before navigating
+    WakeUpTime.ifBedTimeIsTrue();
   }
 
   static saveInfoWakeTime() async {
@@ -239,12 +246,10 @@ class SaveBedTime {
         StorageBedTime.wakeTimeKeyMin, refProvider.watch(wakeTimeSelectedMin));
     await pref.setString(StorageBedTime.wakeTimeKeyPr,
         refProvider.watch(wakeTimeSelectedPeriod));
-
-    // call wake up time and bed time to update the screen before navigating
-    WakeUpTime.ifBedTimeIsTrue();
   }
 }
 
+// if the bedtime have been set buy user call this to display the sleep time info
 class WakeUpTime {
   static ifBedTimeIsTrue() async {
     final pref = await StorageBedTime.objPreBedTime();
@@ -321,9 +326,9 @@ class ClearBedTime {
     await pref.setString(StorageBedTime.tKey, '');
     await pref.setString(StorageBedTime.wKey, '');
     await pref.setString(StorageBedTime.thuKey, '');
-    await pref.setString(StorageBedTime.thuKey, '');
-    await pref.setString(StorageBedTime.thuKey, '');
-    await pref.setString(StorageBedTime.thuKey, '');
+    await pref.setString(StorageBedTime.fKey, '');
+    await pref.setString(StorageBedTime.satKey, '');
+    await pref.setString(StorageBedTime.sunKey, '');
 
     //
     refProvider.read(setMonText.notifier).state = '';
@@ -333,6 +338,15 @@ class ClearBedTime {
     refProvider.read(setFriText.notifier).state = '';
     refProvider.read(setSatText.notifier).state = '';
     refProvider.read(setSunText.notifier).state = '';
+
+    //
+    refProvider.read(isBedTimeM.notifier).state = false;
+    refProvider.read(isBedTimeT.notifier).state = false;
+    refProvider.read(isBedTimeW.notifier).state = false;
+    refProvider.read(isBedTimeThr.notifier).state = false;
+    refProvider.read(isBedTimeF.notifier).state = false;
+    refProvider.read(isBedTimeSat.notifier).state = false;
+    refProvider.read(isBedTimeSun.notifier).state = false;
 
     //
     await pref.setInt(StorageBedTime.bedTimeKeyHr, 0);
@@ -350,6 +364,5 @@ class ClearBedTime {
     await pref.setBool(StorageBedTime.isFSelectedKey, false);
     await pref.setBool(StorageBedTime.isSatSelectedKey, false);
     await pref.setBool(StorageBedTime.isSunSelectedKey, false);
-    // navigateTo(const HomeView());
   }
 }

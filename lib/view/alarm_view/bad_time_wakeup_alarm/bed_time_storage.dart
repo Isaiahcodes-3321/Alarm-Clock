@@ -27,4 +27,5 @@ class StorageBedTime {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs;
   }
+
 }
