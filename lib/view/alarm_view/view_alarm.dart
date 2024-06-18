@@ -1,7 +1,9 @@
 import 'alarm_export.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 import 'bad_time_wakeup_alarm/bed_time_provider.dart';
+import 'package:alarm_clock/view/alarm_view/display_alarm_list/alarm_list.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bad_time_view.dart';
+import 'package:alarm_clock/view/alarm_view/display_alarm_list/list_alarm_controlls.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_listTile.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_controls.dart';
 
@@ -18,6 +20,11 @@ class _ViewAlarmState extends State<ViewAlarm> {
     // TODO: implement initState
     super.initState();
     WakeUpTime.ifBedTimeIsTrue();
+    callArray();
+  }
+ // calling the arrays of alarm that user set
+  callArray() async {
+    await loadItems();
   }
 
   @override
@@ -81,6 +88,10 @@ class _ViewAlarmState extends State<ViewAlarm> {
             ),
             // class to show the listTile that bed time and wake-up time its set
             const BedTimeListTile(),
+            SizedBox(
+              height: 1.h,
+            ),
+            const AlarmViewList(),
           ],
         ));
   }

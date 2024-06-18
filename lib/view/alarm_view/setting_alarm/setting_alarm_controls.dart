@@ -1,4 +1,8 @@
 import '../alarm_export.dart';
+import 'package:alarm_clock/widgets/navigation.dart';
+import 'package:alarm_clock/widgets/show_snackbar.dart';
+import 'package:alarm_clock/view/nav_bar/nav_view.dart';
+import 'package:alarm_clock/view/alarm_view/display_alarm_list/list_alarm_controlls.dart';
 
 int alarmSelectedHourIndex = 0;
 int alarmSelectedMinuteIndex = 0;
@@ -37,9 +41,29 @@ void printSelectedPeriod() {
   print("Selected alarm period: $period");
 }
 
+class SettingAlarmControls {
+  static ifDayNotSet() {
+    if (refProvider.watch(isM) ||
+        refProvider.watch(isT) ||
+        refProvider.watch(isW) ||
+        refProvider.watch(isThr) ||
+        refProvider.watch(isF) ||
+        refProvider.watch(isSat) ||
+        refProvider.watch(isSun)) {
+      printSelectedHour();
+      printSelectedMinute();
+      printSelectedPeriod();
+      isDayPick();
+      addItem();
+      const Duration(seconds: 1);
+      navigateTo(const HomeView());
+    } else {
+      BuildContext context = navigateKey.currentContext!;
+      showCustomSnackBar(context, 'You have not pick a day!');
+    }
+  }
 
-class SettingAlarmControls{
-   // check if any of the day its picked
+  // check if any of the day its picked
   static isDayPick() {
     if (refProvider.watch(isM) ||
         refProvider.watch(isT) ||

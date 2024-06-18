@@ -14,8 +14,7 @@ class BedTimeListTile extends StatelessWidget {
   }
 
   Widget showBedTimeAlarm() {
-    print('value ${refProvider.watch(isBedTimeM)}');
-    print('test ${refProvider.watch(setMonText)}');
+ 
     return Dismissible(
       key: Key('key1'),
       direction: DismissDirection.endToStart,
