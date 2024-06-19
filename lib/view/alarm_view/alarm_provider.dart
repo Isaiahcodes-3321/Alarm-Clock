@@ -44,6 +44,4 @@ final sleepingPeriodMin = StateProvider((ref) => 0);
 
 // hold the variable if all the days its set to save on storage
 final storageAllDaysSelected = StateProvider((ref) => '');
-// and to check too
-final storageAllDaysSelectedFalse = StateProvider((ref) => false);
 

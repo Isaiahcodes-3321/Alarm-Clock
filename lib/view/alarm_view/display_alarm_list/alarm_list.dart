@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:alarm_clock/themes/app_text.dart';
 import 'package:alarm_clock/themes/app_colors.dart';
+import 'package:alarm_clock/widgets/navigation.dart';
+import 'package:alarm_clock/view/nav_bar/nav_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
-import 'package:alarm_clock/view/alarm_view/alarm_provider.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_provider.dart';
 import 'package:alarm_clock/view/alarm_view/display_alarm_list/list_alarm_controlls.dart';
 
@@ -14,7 +15,7 @@ class AlarmViewList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 100.w,
-      height: refProvider.watch(isBedSet) ? 52.h : 70.h,
+      height: refProvider.watch(isBedSet) ? 50.h : 70.h,
       child: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
@@ -35,8 +36,10 @@ class AlarmViewList extends StatelessWidget {
                 ),
               ),
             ),
-            onDismissed: (direction){
-              items = [];
+            onDismissed: (direction) {
+              items.removeAt(indexOfArray);
+              saveItems();
+              navigateTo(const HomeView());
             },
             child: Container(
               width: 100.w,
@@ -74,10 +77,7 @@ class AlarmViewList extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        text(refProvider.watch(storageAllDaysSelectedFalse)
-                            ? 'Every Day'
-                            // refProvider.watch(storageAllDaysSelected)
-                            : items[indexOfArray][2]),
+                        text( items[indexOfArray][2]),
                         text(items[indexOfArray][3]),
                         text(items[indexOfArray][4]),
                         text(items[indexOfArray][5]),

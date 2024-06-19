@@ -33,66 +33,68 @@ class _ViewAlarmState extends State<ViewAlarm> {
     return SizedBox(
         width: 100.w,
         height: 100.h,
-        child: Column(
-          children: [
-            bar(
-              'Alarm',
-              GestureDetector(
-                  onTap: () {
-                    navigateTo(const SettingAlarmView());
-                  },
-                  child: Icon(
-                    Icons.add,
-                    color: AppColors.whiteColor,
-                    size: iconSize,
-                  )),
-              PopupMenuButton(
-                  iconSize: iconSize,
-                  iconColor: AppColors.whiteColor,
-                  color: AppColors.lightGreyColor,
-                  itemBuilder: (context) => [
-                        PopupMenuItem(
-                            onTap: () {
-                              // to display bottom sheet widget to set alarm volume
-                              Scaffold.of(context)
-                                  .showBottomSheet((BuildContext context) {
-                                return const BottomSheetDisplay();
-                              });
-                            },
-                            child: popMenuText('Alarm Setting')),
-                        PopupMenuItem(
-                            onTap: () {
-                              refProvider.read(isBedTimeM.notifier).state =
-                                  false;
-                              refProvider.read(isBedTimeT.notifier).state =
-                                  false;
-                              refProvider.read(isBedTimeW.notifier).state =
-                                  false;
-                              refProvider.read(isBedTimeThr.notifier).state =
-                                  false;
-                              refProvider.read(isBedTimeF.notifier).state =
-                                  false;
-                              refProvider.read(isBedTimeSat.notifier).state =
-                                  false;
-                              refProvider.read(isBedTimeSun.notifier).state =
-                                  false;
-                              GetSleepingPeriod.getAllTime();
-                              GetSleepingPeriod.getSleepingPeriod();
-                              navigateTo(const BadTimeView());
-                            },
-                            child: popMenuText('Set bedtime and wake-up time')),
-                      ]),
-            ),
-            SizedBox(
-              height: 4.h,
-            ),
-            // class to show the listTile that bed time and wake-up time its set
-            const BedTimeListTile(),
-            SizedBox(
-              height: 1.h,
-            ),
-            const AlarmViewList(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              bar(
+                'Alarm',
+                GestureDetector(
+                    onTap: () {
+                      navigateTo(const SettingAlarmView());
+                    },
+                    child: Icon(
+                      Icons.add,
+                      color: AppColors.whiteColor,
+                      size: iconSize,
+                    )),
+                PopupMenuButton(
+                    iconSize: iconSize,
+                    iconColor: AppColors.whiteColor,
+                    color: AppColors.lightGreyColor,
+                    itemBuilder: (context) => [
+                          PopupMenuItem(
+                              onTap: () {
+                                // to display bottom sheet widget to set alarm volume
+                                Scaffold.of(context)
+                                    .showBottomSheet((BuildContext context) {
+                                  return const BottomSheetDisplay();
+                                });
+                              },
+                              child: popMenuText('Alarm Setting')),
+                          PopupMenuItem(
+                              onTap: () {
+                                refProvider.read(isBedTimeM.notifier).state =
+                                    false;
+                                refProvider.read(isBedTimeT.notifier).state =
+                                    false;
+                                refProvider.read(isBedTimeW.notifier).state =
+                                    false;
+                                refProvider.read(isBedTimeThr.notifier).state =
+                                    false;
+                                refProvider.read(isBedTimeF.notifier).state =
+                                    false;
+                                refProvider.read(isBedTimeSat.notifier).state =
+                                    false;
+                                refProvider.read(isBedTimeSun.notifier).state =
+                                    false;
+                                GetSleepingPeriod.getAllTime();
+                                GetSleepingPeriod.getSleepingPeriod();
+                                navigateTo(const BadTimeView());
+                              },
+                              child: popMenuText('Set bedtime and wake-up time')),
+                        ]),
+              ),
+              SizedBox(
+                height: 4.h,
+              ),
+              // class to show the listTile that bed time and wake-up time its set
+              const BedTimeListTile(),
+              SizedBox(
+                height: 1.h,
+              ),
+              const AlarmViewList(),
+            ],
+          ),
         ));
   }
 }

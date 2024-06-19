@@ -4,8 +4,6 @@ import 'package:alarm_clock/view/alarm_view/alarm_provider.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_storage.dart';
 
 List<List<String>> items = [];
-String isAllDayFalse = 'isAllDayFalse';
-String setTextEveryDay = 'setTextEveryDay';
 String alarmList = 'alarmList';
 
 Future<void> loadItems() async {
@@ -34,10 +32,6 @@ Future<void> saveItems() async {
 
   // Save the list of encoded lists to SharedPreferences
   await pref.setStringList(alarmList, itemsToSave);
-  await pref.setString(
-      setTextEveryDay, refProvider.watch(storageAllDaysSelected));
-  await pref.setBool(
-      isAllDayFalse, refProvider.watch(storageAllDaysSelectedFalse));
 }
 
 void addItem() {
@@ -53,7 +47,17 @@ void addItem() {
       refProvider.watch(isSat) &&
       refProvider.watch(isSun)) {
     refProvider.read(storageAllDaysSelected.notifier).state = 'Every Day';
-    refProvider.read(storageAllDaysSelectedFalse.notifier).state = true;
+    items.add([
+      '$getHour:$getMin',
+      '${refProvider.watch(selectedPeriod)}',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '${refProvider.watch(storageAllDaysSelected)}'
+    ]);
   } else {
     items.add([
       '$getHour:$getMin',
@@ -67,13 +71,11 @@ void addItem() {
       '${refProvider.watch(sunText)}'
     ]);
     refProvider.read(storageAllDaysSelected.notifier).state = '';
-    refProvider.read(storageAllDaysSelectedFalse.notifier).state = false;
   }
   clearVariablesData();
-  // empty all array
-  // items = [];
   saveItems();
 }
+
 
 clearVariablesData() {
   refProvider.read(selectedHour.notifier).state = 0;

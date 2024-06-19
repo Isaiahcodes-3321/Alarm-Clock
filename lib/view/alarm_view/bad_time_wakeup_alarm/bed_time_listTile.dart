@@ -7,86 +7,87 @@ class BedTimeListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       refProvider = ref;
-      return ref.watch(isBedSet) 
-          ? showBedTimeAlarm()
-          : const SizedBox();
+      return  refProvider.watch(isBedSet) ? showBedTimeAlarm() : const SizedBox();
     });
   }
 
   Widget showBedTimeAlarm() {
- 
-    return Dismissible(
-      key: Key('key1'),
-      direction: DismissDirection.endToStart,
-      background: Container(
-        color: AppColors.blueColor,
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Align(
+    return SizedBox(
+      width: 100.w,
+      height: 20.h,
+      child: Dismissible(
+        key: Key('key1'),
+        direction: DismissDirection.endToStart,
+        background: Container(
+          color: AppColors.blueColor,
           alignment: Alignment.centerRight,
-          child: Icon(
-            Icons.delete,
-            size: 50,
-            color: AppColors.whiteColor,
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Icon(
+              Icons.delete,
+              size: 50,
+              color: AppColors.whiteColor,
+            ),
           ),
         ),
-      ),
-      onDismissed: (direction) {
-        ClearBedTime.emptyStorage();
-      },
-      child: Container(
-          margin: const EdgeInsets.all(7),
-          decoration: BoxDecoration(
-            color: AppColors.bottomSheetColor,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          width: 100.w,
-          height: 16.h,
-          child: Center(
-            child: Row(
-              children: [
-                container(
-                  40.w,
-                  90.h,
-                  '${refProvider.watch(displayBedTimeHr)}:${refProvider.watch(displayBedTimeMin)}',
-                  'Sleep',
-                  refProvider.watch(displayBedTimePr),
-                  '${refProvider.watch(displayWakeTimeHr)}:${refProvider.watch(displayWakeTimeMin)}',
-                  'Wake',
-                  refProvider.watch(displayWakeTimePr),
-                ),
-                SizedBox(
-                    width: 50.w,
-                    height: 90.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        refProvider.watch(isBedTimeM)
-                            ? text(refProvider.watch(setMonText))
-                            : text(''),
-                        refProvider.watch(isBedTimeT)
-                            ? text(refProvider.watch(setTueText))
-                            : text(''),
-                        refProvider.watch(isBedTimeW)
-                            ? text(refProvider.watch(setWedText))
-                            : text(''),
-                        refProvider.watch(isBedTimeThr)
-                            ? text(refProvider.watch(setThuText))
-                            : text(''),
-                        refProvider.watch(isBedTimeF)
-                            ? text(refProvider.watch(setFriText))
-                            : text(''),
-                        refProvider.watch(isBedTimeSat)
-                            ? text(refProvider.watch(setSatText))
-                            : text(''),
-                        refProvider.watch(isBedTimeSun)
-                            ? text(refProvider.watch(setSunText))
-                            : text('')
-                      ],
-                    ))
-              ],
+        onDismissed: (direction) {
+          ClearBedTime.emptyStorage();
+        },
+        child: Container(
+            margin: const EdgeInsets.all(7),
+            decoration: BoxDecoration(
+              color: AppColors.bottomSheetColor,
+              borderRadius: BorderRadius.circular(15),
             ),
-          )),
+            width: 100.w,
+            height: 16.h,
+            child: Center(
+              child: Row(
+                children: [
+                  container(
+                    40.w,
+                    90.h,
+                    '${refProvider.watch(displayBedTimeHr)}:${refProvider.watch(displayBedTimeMin)}',
+                    'Sleep',
+                    refProvider.watch(displayBedTimePr),
+                    '${refProvider.watch(displayWakeTimeHr)}:${refProvider.watch(displayWakeTimeMin)}',
+                    'Wake',
+                    refProvider.watch(displayWakeTimePr),
+                  ),
+                  SizedBox(
+                      width: 50.w,
+                      height: 90.h,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          refProvider.watch(isBedTimeM)
+                              ? text(refProvider.watch(setMonText))
+                              : text(''),
+                          refProvider.watch(isBedTimeT)
+                              ? text(refProvider.watch(setTueText))
+                              : text(''),
+                          refProvider.watch(isBedTimeW)
+                              ? text(refProvider.watch(setWedText))
+                              : text(''),
+                          refProvider.watch(isBedTimeThr)
+                              ? text(refProvider.watch(setThuText))
+                              : text(''),
+                          refProvider.watch(isBedTimeF)
+                              ? text(refProvider.watch(setFriText))
+                              : text(''),
+                          refProvider.watch(isBedTimeSat)
+                              ? text(refProvider.watch(setSatText))
+                              : text(''),
+                          refProvider.watch(isBedTimeSun)
+                              ? text(refProvider.watch(setSunText))
+                              : text('')
+                        ],
+                      ))
+                ],
+              ),
+            )),
+      ),
     );
   }
 }
