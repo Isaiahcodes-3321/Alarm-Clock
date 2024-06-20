@@ -25,7 +25,9 @@ final alarmPeriodWheel = WheelPickerController(
 
 void printSelectedHour() {
   final hour = (alarmSelectedHourIndex + 1) % 12;
-  refProvider.read(selectedHour.notifier).state = hour;
+  // refProvider.read(selectedHour.notifier).state = hour;
+  refProvider.read(selectedHour.notifier).state =
+      int.parse("${hour == 0 ? 12 : hour}");
   print("Selected alarm hour: ${hour == 0 ? 12 : hour}");
 }
 
@@ -98,37 +100,37 @@ class SettingAlarmControls {
 
       // if a particular day is selected
       if (refProvider.watch(isM)) {
-        refProvider.read(monText.notifier).state = 'Mon,';
+        refProvider.read(monText.notifier).state = 'Mon';
       } else {
         refProvider.read(monText.notifier).state = '';
       }
       if (refProvider.watch(isT)) {
-        refProvider.read(tueText.notifier).state = 'Tue,';
+        refProvider.read(tueText.notifier).state = 'Tue';
       } else {
         refProvider.read(tueText.notifier).state = '';
       }
       if (refProvider.watch(isW)) {
-        refProvider.read(wedText.notifier).state = 'Wed,';
+        refProvider.read(wedText.notifier).state = 'Wed';
       } else {
         refProvider.read(wedText.notifier).state = '';
       }
       if (refProvider.watch(isThr)) {
-        refProvider.read(thrText.notifier).state = 'Thr,';
+        refProvider.read(thrText.notifier).state = 'Thu';
       } else {
         refProvider.read(thrText.notifier).state = '';
       }
       if (refProvider.watch(isF)) {
-        refProvider.read(friText.notifier).state = 'Fri,';
+        refProvider.read(friText.notifier).state = 'Fri';
       } else {
         refProvider.read(friText.notifier).state = '';
       }
       if (refProvider.watch(isSat)) {
-        refProvider.read(satText.notifier).state = 'Sat,';
+        refProvider.read(satText.notifier).state = 'Sat';
       } else {
         refProvider.read(satText.notifier).state = '';
       }
       if (refProvider.watch(isSun)) {
-        refProvider.read(sunText.notifier).state = 'Sun,';
+        refProvider.read(sunText.notifier).state = 'Sun';
       } else {
         refProvider.read(sunText.notifier).state = '';
       }

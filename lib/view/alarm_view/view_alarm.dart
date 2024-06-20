@@ -1,6 +1,7 @@
 import 'alarm_export.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 import 'bad_time_wakeup_alarm/bed_time_provider.dart';
+import 'package:alarm_clock/view/alarm_view/alarm_controller.dart';
 import 'package:alarm_clock/view/alarm_view/display_alarm_list/alarm_list.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bad_time_view.dart';
 import 'package:alarm_clock/view/alarm_view/display_alarm_list/list_alarm_controlls.dart';
@@ -22,7 +23,8 @@ class _ViewAlarmState extends State<ViewAlarm> {
     WakeUpTime.ifBedTimeIsTrue();
     callArray();
   }
- // calling the arrays of alarm that user set
+
+  // calling the arrays of alarm that user set
   callArray() async {
     await loadItems();
   }
@@ -81,14 +83,24 @@ class _ViewAlarmState extends State<ViewAlarm> {
                                 GetSleepingPeriod.getSleepingPeriod();
                                 navigateTo(const BadTimeView());
                               },
-                              child: popMenuText('Set bedtime and wake-up time')),
+                              child:
+                                  popMenuText('Set bedtime and wake-up time')),
                         ]),
               ),
               SizedBox(
                 height: 4.h,
               ),
               // class to show the listTile that bed time and wake-up time its set
-              const BedTimeListTile(),
+              MaterialButton(
+                onPressed: () {
+                  RingAlarmControls.checkingTime();
+                },
+                child: Text(
+                  "Click mew",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              // const BedTimeListTile(),
               SizedBox(
                 height: 1.h,
               ),

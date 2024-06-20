@@ -12,4 +12,4 @@ export 'package:responsive_sizer/responsive_sizer.dart';
 export 'package:alarm_clock/view/nav_bar/nav_controls.dart';
 export 'package:alarm_clock/view/stop_watch/st_provider.dart';
 export 'package:awesome_notifications/awesome_notifications.dart';
-export 'package:alarm_clock/view/timer/notification_controller.dart';
+export 'package:alarm_clock/view/notification_controller.dart';

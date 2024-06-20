@@ -27,7 +27,9 @@ class BedTimePicker {
 
   static void printBedTimeSelectedHour() {
     final hour = (bedTimeSelectedHourIndex + 1) % 12;
-    refProvider.read(bedTimeSelectedHour.notifier).state = hour;
+    refProvider.read(bedTimeSelectedHour.notifier).state =
+        int.parse("${hour == 0 ? 12 : hour}");
+        
     printBedTimeSelectedPeriod();
     GetSleepingPeriod.getSleepingPeriod();
     print("Selected bed time hour: ${hour == 0 ? 12 : hour}");
@@ -181,45 +183,45 @@ class SaveBedTime {
     final pref = await StorageBedTime.objPreBedTime();
 
     if (refProvider.watch(isBedTimeM)) {
-      await pref.setString(StorageBedTime.mKey, 'MON');
+      await pref.setString(StorageBedTime.mKey, 'Mon');
       await pref.setBool(StorageBedTime.isMSelectedKey, true);
     } else {
       refProvider.read(setMonText.notifier).state = '';
     }
     //
     if (refProvider.watch(isBedTimeT)) {
-      await pref.setString(StorageBedTime.tKey, 'TUE');
+      await pref.setString(StorageBedTime.tKey, 'Tue');
       await pref.setBool(StorageBedTime.isTSelectedKey, true);
     } else {
       refProvider.read(setTueText.notifier).state = '';
     }
     //
     if (refProvider.watch(isBedTimeW)) {
-      await pref.setString(StorageBedTime.wKey, 'WED');
+      await pref.setString(StorageBedTime.wKey, 'Wed');
       await pref.setBool(StorageBedTime.isWSelectedKey, true);
     } else {
       refProvider.read(setWedText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeThr)) {
-      await pref.setString(StorageBedTime.thuKey, 'THU');
+      await pref.setString(StorageBedTime.thuKey, 'Thu');
       await pref.setBool(StorageBedTime.isThuSelectedKey, true);
     } else {
       refProvider.read(setThuText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeF)) {
-      await pref.setString(StorageBedTime.fKey, 'FRI');
+      await pref.setString(StorageBedTime.fKey, 'Fri');
       await pref.setBool(StorageBedTime.isFSelectedKey, true);
     } else {
       refProvider.read(setFriText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeSat)) {
-      await pref.setString(StorageBedTime.satKey, 'SAT');
+      await pref.setString(StorageBedTime.satKey, 'Sat');
       await pref.setBool(StorageBedTime.isSatSelectedKey, true);
     } else {
       refProvider.read(setSatText.notifier).state = '';
     }
     if (refProvider.watch(isBedTimeSun)) {
-      await pref.setString(StorageBedTime.sunKey, 'SUN');
+      await pref.setString(StorageBedTime.sunKey, 'Sun');
       await pref.setBool(StorageBedTime.isSunSelectedKey, true);
     } else {
       refProvider.read(setSunText.notifier).state = '';

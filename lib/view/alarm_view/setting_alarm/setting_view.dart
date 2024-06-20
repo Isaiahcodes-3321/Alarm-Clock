@@ -1,7 +1,5 @@
-import '../alarm_export.dart';
 import 'setting_alarm_export.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_export.dart';
-import 'package:alarm_clock/view/alarm_view/display_alarm_list/list_alarm_controlls.dart';
 
 class SettingAlarmView extends StatefulWidget {
   const SettingAlarmView({super.key});

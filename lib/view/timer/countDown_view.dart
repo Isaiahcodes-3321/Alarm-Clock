@@ -1,5 +1,7 @@
 import 'time_export.dart';
 import 'package:flutter/material.dart';
+import 'package:alarm_clock/widgets/notification.dart';
+
 
 
 
@@ -50,7 +52,7 @@ class CountDown extends StatelessWidget {
                       getLoopingValue();
                       getVolumeValue();
                       EmptyTimer.emptyTimer();
-                      showNotification();
+                      showNotificationCountDown();
                       print("Timer finished");
                     },
                   )
@@ -88,11 +90,4 @@ class CountDown extends StatelessWidget {
   }
 }
 
-showNotification() => AwesomeNotifications().createNotification(
-        content: NotificationContent(
-      id: 10,
-      channelKey: 'basic_channel',
-      actionType: ActionType.Default,
-      title: 'Hello Dear User',
-      body: 'Your time its up Click notification to stop alarm',
-    ));
+

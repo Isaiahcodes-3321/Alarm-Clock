@@ -21,7 +21,7 @@ class AlarmViewList extends StatelessWidget {
         itemBuilder: (context, index) {
           int indexOfArray = index;
           return Dismissible(
-            key: Key('key2'),
+            key: const Key('key2'),
             direction: DismissDirection.endToStart,
             background: Container(
               color: AppColors.blueColor,
@@ -77,7 +77,7 @@ class AlarmViewList extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        text( items[indexOfArray][2]),
+                        text(items[indexOfArray][2]),
                         text(items[indexOfArray][3]),
                         text(items[indexOfArray][4]),
                         text(items[indexOfArray][5]),

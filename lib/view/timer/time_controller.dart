@@ -1,5 +1,7 @@
 import 'time_export.dart';
 import 'package:flutter/material.dart';
+import 'package:alarm_clock/widgets/notification.dart';
+
 
 // ignore_for_file: avoid_print
 
@@ -83,7 +85,7 @@ class GetCurrentTime {
     int intEndTime = endTime.hour * 60 + endTime.minute;
     if (intCurrentTime > intEndTime) {
       EmptyTimer.emptyTimer();
-      showNotification();
+      showNotificationCountDown();
       print('Current time is greater than end time.');
     } else {
       print('Current time is not greater than end time.');
