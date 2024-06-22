@@ -22,11 +22,17 @@ class _ViewAlarmState extends State<ViewAlarm> {
     super.initState();
     WakeUpTime.ifBedTimeIsTrue();
     callArray();
+    checkAlarm();
   }
 
   // calling the arrays of alarm that user set
   callArray() async {
     await loadItems();
+
+  }
+
+  checkAlarm() {
+    RingAlarmControls.checkingTime();
   }
 
   @override
@@ -91,16 +97,8 @@ class _ViewAlarmState extends State<ViewAlarm> {
                 height: 4.h,
               ),
               // class to show the listTile that bed time and wake-up time its set
-              MaterialButton(
-                onPressed: () {
-                  RingAlarmControls.checkingTime();
-                },
-                child: Text(
-                  "Click mew",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              // const BedTimeListTile(),
+
+              const BedTimeListTile(),
               SizedBox(
                 height: 1.h,
               ),

@@ -20,6 +20,7 @@ class AlarmViewList extends StatelessWidget {
         itemCount: items.length,
         itemBuilder: (context, index) {
           int indexOfArray = index;
+          // print('last valuse ${items[indexOfArray][8]}');
           return Dismissible(
             key: const Key('key2'),
             direction: DismissDirection.endToStart,
@@ -43,50 +44,66 @@ class AlarmViewList extends StatelessWidget {
             },
             child: Container(
               width: 100.w,
-              height: 14.h,
+              height: 17.h,
               decoration: BoxDecoration(
                 color: AppColors.bottomSheetColor,
                 borderRadius: BorderRadius.circular(15),
               ),
               margin: const EdgeInsets.all(7),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                      height: 3.h,
+                      width: 80.w,
+                      margin: EdgeInsets.only(left: 2.w, top: 1.h),
+                      // text to display the name of the alarm 
+                      child: text(items[indexOfArray][9])),
                   SizedBox(
-                    width: 40.w,
-                    height: 7.h,
-                    child: Text.rich(
-                      TextSpan(
-                        text: items[indexOfArray][0],
-                        style: AppTextStyle.largeBold(AppColors.whiteColor,
-                            fontSize: AppTextStyle.mediumBoldFont),
-                        children: [
-                          TextSpan(
-                            text: items[indexOfArray][1],
-                            style: AppTextStyle.mediumSmall(
-                              AppColors.whiteColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 50.w,
-                    height: 90.h,
+                    width: 100.w,
+                    height: 10.h,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        text(items[indexOfArray][2]),
-                        text(items[indexOfArray][3]),
-                        text(items[indexOfArray][4]),
-                        text(items[indexOfArray][5]),
-                        text(items[indexOfArray][6]),
-                        text(items[indexOfArray][7]),
-                        text(items[indexOfArray][8]),
+                        SizedBox(
+                          width: 40.w,
+                          height: 7.h,
+                          child: Text.rich(
+                            TextSpan(
+                              text: items[indexOfArray][0],
+                              style: AppTextStyle.largeBold(
+                                  AppColors.whiteColor,
+                                  fontSize: AppTextStyle.mediumBoldFont),
+                              children: [
+                                TextSpan(
+                                  text: items[indexOfArray][1],
+                                  style: AppTextStyle.mediumSmall(
+                                    AppColors.whiteColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 50.w,
+                          height: 90.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              text(items[indexOfArray][2]),
+                              text(items[indexOfArray][3]),
+                              text(items[indexOfArray][4]),
+                              text(items[indexOfArray][5]),
+                              text(items[indexOfArray][6]),
+                              text(items[indexOfArray][7]),
+                              text(items[indexOfArray][8]),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

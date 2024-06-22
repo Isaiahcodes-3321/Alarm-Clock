@@ -16,5 +16,5 @@ showNotificationAlarm() => AwesomeNotifications().createNotification(
       channelKey: 'basic_channel',
       actionType: ActionType.Default,
       title: 'Hello Dear User',
-      body: 'Your alarm time its up',
+      body: 'Your alarm time its up Click notification to stop alarm',
     ));

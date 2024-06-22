@@ -2,6 +2,8 @@ import 'setting_alarm_controls.dart';
 import 'package:alarm_clock/view/timer/time_export.dart';
 import 'package:alarm_clock/view/alarm_view/alarm_export.dart';
 import 'package:alarm_clock/view/alarm_view/alarm_controller.dart';
+import 'package:alarm_clock/view/alarm_view/display_alarm_list/list_alarm_controlls.dart';
+
 
 
 class DatePicking extends StatelessWidget {
@@ -70,7 +72,7 @@ class DatePicking extends StatelessWidget {
                 height: 2.h,
               ),
               TextField(
-                controller: TextEditingController(),
+                controller: alarmName,
                 style: inputTextStyle,
                 decoration: InputDecoration(
                   hintText: 'Name of Alarm',

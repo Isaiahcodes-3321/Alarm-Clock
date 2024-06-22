@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:alarm_clock/themes/constant.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 import 'package:alarm_clock/widgets/notification.dart';
 import 'package:alarm_clock/view/alarm_view/alarm_export.dart';
@@ -30,10 +31,9 @@ class AlarmControllers {
 class RingAlarmControls {
   static checkingTime() {
     DateTime now = DateTime.now();
+
     String currentTime = DateFormat('hh:mm a').format(now);
     String currentDay = DateFormat('EEE').format(now);
-
-    // print('saved time its ${items[0][0]} ${items[0][1]}');
 
     for (int index = 0; index < items.length; index++) {
       String getStoredTime = "${items[index][0]} ${items[index][1]}";
@@ -42,8 +42,8 @@ class RingAlarmControls {
       // Formatting the saved DateTime object to ensure it's in the same format as current time
       String savedTimeFormatted = DateFormat('hh:mm a').format(savedDateTime);
 
-      print('save time $savedTimeFormatted');
-      print('Current time: $currentTime');
+      // print('save time $savedTimeFormatted');
+      // print('Current time: $currentTime');
       //
       String getStoredM = items[index][2];
       String getStoredT = items[index][3];
@@ -51,7 +51,9 @@ class RingAlarmControls {
       String getStoredTh = items[index][5];
       String getStoredF = items[index][6];
       String getStoredSat = items[index][7];
+      // getStoredSun its still holding the date and month if user set it from calender
       String getStoredSun = items[index][8];
+      // Parsing the stored date:
 
       if (currentTime == savedTimeFormatted) {
         if (currentDay == getStoredM ||
@@ -62,11 +64,32 @@ class RingAlarmControls {
             currentDay == getStoredSat ||
             currentDay == getStoredSun) {
           showNotificationAlarm();
-          print('one of the day its same oooo');
+
+          durationMin(3, () {
+            RingAlarmControls.checkingTime();
+          });
+          // print('one of the day its same oooo');
+        } else {
+          // convert the date that the user picked from the calender
+          String currentDateString = DateFormat('EEE dd MMM').format(now);
+          print('Save date 000 $getStoredSun');
+          print("current date 0001 $currentDateString");
+          if (currentDateString == getStoredSun) {
+            showNotificationAlarm();
+            durationMin(3, () {
+              RingAlarmControls.checkingTime();
+            });
+          } else {
+            durationSeconds(10, () {
+              RingAlarmControls.checkingTime();
+            });
+            // print('Saved time and current time its not same ');
+          }
         }
-        print('current time and save time its same');
       } else {
-        print('Saved time and current time its not same ');
+        durationSeconds(10, () {
+          RingAlarmControls.checkingTime();
+        });
       }
     }
   }

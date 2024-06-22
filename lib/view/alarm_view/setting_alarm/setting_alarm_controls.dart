@@ -45,23 +45,33 @@ void printSelectedPeriod() {
 
 class SettingAlarmControls {
   static ifDayNotSet() {
-    if (refProvider.watch(isM) ||
-        refProvider.watch(isT) ||
-        refProvider.watch(isW) ||
-        refProvider.watch(isThr) ||
-        refProvider.watch(isF) ||
-        refProvider.watch(isSat) ||
-        refProvider.watch(isSun)) {
+    if (refProvider.watch(isCalenderDatePicked)) {
       printSelectedHour();
       printSelectedMinute();
       printSelectedPeriod();
-      isDayPick();
+      // isDayPick();
       addItem();
       const Duration(seconds: 1);
       navigateTo(const HomeView());
     } else {
-      BuildContext context = navigateKey.currentContext!;
-      showCustomSnackBar(context, 'You have not pick a day!');
+      if (refProvider.watch(isM) ||
+          refProvider.watch(isT) ||
+          refProvider.watch(isW) ||
+          refProvider.watch(isThr) ||
+          refProvider.watch(isF) ||
+          refProvider.watch(isSat) ||
+          refProvider.watch(isSun)) {
+        printSelectedHour();
+        printSelectedMinute();
+        printSelectedPeriod();
+        isDayPick();
+        addItem();
+        const Duration(seconds: 1);
+        navigateTo(const HomeView());
+      } else {
+        BuildContext context = navigateKey.currentContext!;
+        showCustomSnackBar(context, 'You have not pick a day!');
+      }
     }
   }
 
