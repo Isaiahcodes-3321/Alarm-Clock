@@ -30,6 +30,7 @@ class BedTimePicker {
     refProvider.read(bedTimeSelectedHour.notifier).state =
         int.parse("${hour == 0 ? 12 : hour}");
         
+        
     printBedTimeSelectedPeriod();
     GetSleepingPeriod.getSleepingPeriod();
     print("Selected bed time hour: ${hour == 0 ? 12 : hour}");

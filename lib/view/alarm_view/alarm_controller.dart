@@ -3,6 +3,7 @@ import 'package:alarm_clock/themes/constant.dart';
 import 'package:alarm_clock/widgets/navigation.dart';
 import 'package:alarm_clock/widgets/notification.dart';
 import 'package:alarm_clock/view/alarm_view/alarm_export.dart';
+import 'package:alarm_clock/view/global_controls/global_provider.dart';
 import 'package:alarm_clock/view/alarm_view/display_alarm_list/list_alarm_controlls.dart';
 
 class AlarmControllers {
@@ -63,8 +64,12 @@ class RingAlarmControls {
             currentDay == getStoredF ||
             currentDay == getStoredSat ||
             currentDay == getStoredSun) {
-          showNotificationAlarm();
-
+          refProvider.watch(isNotificationClick)
+              ? durationMin(1, () {
+                  refProvider.read(isNotificationClick.notifier).state = false;
+                  RingAlarmControls.checkingTime();
+                })
+              : showNotificationAlarm();
           durationMin(3, () {
             RingAlarmControls.checkingTime();
           });
@@ -75,21 +80,33 @@ class RingAlarmControls {
           print('Save date 000 $getStoredSun');
           print("current date 0001 $currentDateString");
           if (currentDateString == getStoredSun) {
-            showNotificationAlarm();
+            refProvider.watch(isNotificationClick)
+                ? durationSeconds(50, () {
+                    print('waiting alarm now ${refProvider.watch(isNotificationClick)}');
+
+                    refProvider.read(isNotificationClick.notifier).state =
+                        false;
+                    RingAlarmControls.checkingTime();
+                  })
+                : showNotificationAlarm();
             durationMin(3, () {
               RingAlarmControls.checkingTime();
             });
           } else {
-            durationSeconds(10, () {
+            durationSeconds(5, () {
+              refProvider.read(isNotificationClick.notifier).state = false;
               RingAlarmControls.checkingTime();
             });
-            // print('Saved time and current time its not same ');
+            // print('Saved date on calender its not same with current date');
           }
         }
       } else {
-        durationSeconds(10, () {
+        print('Current time its not same with save time');
+        durationSeconds(5, () {
+          refProvider.read(isNotificationClick.notifier).state = false;
           RingAlarmControls.checkingTime();
         });
+        // print('run again');
       }
     }
   }

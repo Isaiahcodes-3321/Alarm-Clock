@@ -7,6 +7,7 @@ import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bad_time_view.
 import 'package:alarm_clock/view/alarm_view/display_alarm_list/list_alarm_controlls.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_listTile.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_controls.dart';
+import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_controls1.dart';
 
 class ViewAlarm extends StatefulWidget {
   const ViewAlarm({super.key});
@@ -28,11 +29,16 @@ class _ViewAlarmState extends State<ViewAlarm> {
   // calling the arrays of alarm that user set
   callArray() async {
     await loadItems();
-
   }
 
   checkAlarm() {
+    // list of alarm time
     RingAlarmControls.checkingTime();
+
+    // call sleep time
+    ControlsRingAlarm.checkingSleepTime();
+     // call Wake time
+    ControlsRingAlarm.checkingWakeTime();
   }
 
   @override

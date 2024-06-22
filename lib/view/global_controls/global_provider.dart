@@ -4,4 +4,5 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final isLoopAudio = StateProvider((ref) => false);
 final isVibrating = StateProvider((ref) => false);
+final isNotificationClick = StateProvider((ref) => false);
 final vibrateVolume = StateProvider((ref) => 0.5);

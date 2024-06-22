@@ -5,6 +5,7 @@ import 'package:alarm_clock/widgets/navigation.dart';
 import 'package:alarm_clock/view/nav_bar/nav_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:alarm_clock/view/nav_bar/nav_provider.dart';
+import 'package:alarm_clock/view/global_controls/global_provider.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_provider.dart';
 import 'package:alarm_clock/view/alarm_view/display_alarm_list/list_alarm_controlls.dart';
 
@@ -38,6 +39,7 @@ class AlarmViewList extends StatelessWidget {
               ),
             ),
             onDismissed: (direction) {
+              refProvider.read(isNotificationClick.notifier).state = false;
               items.removeAt(indexOfArray);
               saveItems();
               navigateTo(const HomeView());
@@ -57,7 +59,7 @@ class AlarmViewList extends StatelessWidget {
                       height: 3.h,
                       width: 80.w,
                       margin: EdgeInsets.only(left: 2.w, top: 1.h),
-                      // text to display the name of the alarm 
+                      // text to display the name of the alarm
                       child: text(items[indexOfArray][9])),
                   SizedBox(
                     width: 100.w,

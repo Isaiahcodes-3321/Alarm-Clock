@@ -1,3 +1,4 @@
+import 'package:alarm_clock/view/global_controls/global_provider.dart';
 import 'package:alarm_clock/view/alarm_view/bad_time_wakeup_alarm/bed_time_export.dart';
 
 class BedTimeListTile extends StatelessWidget {
@@ -7,7 +8,9 @@ class BedTimeListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       refProvider = ref;
-      return  refProvider.watch(isBedSet) ? showBedTimeAlarm() : const SizedBox();
+      return refProvider.watch(isBedSet)
+          ? showBedTimeAlarm()
+          : const SizedBox();
     });
   }
 
@@ -32,6 +35,7 @@ class BedTimeListTile extends StatelessWidget {
           ),
         ),
         onDismissed: (direction) {
+          refProvider.read(isNotificationClick.notifier).state = false;
           ClearBedTime.emptyStorage();
         },
         child: Container(
